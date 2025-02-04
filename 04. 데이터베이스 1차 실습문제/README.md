@@ -10,10 +10,8 @@
 - `결제 날짜(payment_date)`를 기준으로 **월별 데이터를 그룹화**  
 
 🔹 **결과 화면**  
-![문제 1 결과 화면](https://github.com/user-attachments/assets/이미지파일URL)
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/이미지파일URL" width="600">
-</p>
+![문제 1 결과 화면]([https://github.com/user-attachments/assets/https://private-user-images.githubusercontent.com/193302801/409574649-7f4aac85-b4fc-4d67-a652-ab8ee05edb2f.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3Mzg2NzY5NjcsIm5iZiI6MTczODY3NjY2NywicGF0aCI6Ii8xOTMzMDI4MDEvNDA5NTc0NjQ5LTdmNGFhYzg1LWI0ZmMtNGQ2Ny1hNjUyLWFiOGVlMDVlZGIyZi5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMjA0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDIwNFQxMzQ0MjdaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1mNWIwY2E5MWVmOWQ1YzY5MTJjY2JkMDRkYTgwZjJiODEzZDlhOTBmNzY5NDkzMGRmZGQ5N2M3YjRlMjZjZDQ3JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.FbDY4a037o4r0f82txxYNSkpRYzyywaQt8YD3MQGH40)
+
 
 ---
 
