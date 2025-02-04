@@ -10,7 +10,10 @@
 - `결제 날짜(payment_date)`를 기준으로 **월별 데이터를 그룹화**  
 
 🔹 **결과 화면**  
-
+![문제 1 결과 화면](https://github.com/user-attachments/assets/이미지파일URL)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/이미지파일URL" width="600">
+</p>
 
 ---
 
