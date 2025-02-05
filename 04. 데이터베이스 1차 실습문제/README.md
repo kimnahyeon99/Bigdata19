@@ -9,9 +9,9 @@
 - `payment` 테이블에서 **결제 금액을 집계**  
 - `결제 날짜(payment_date)`를 기준으로 **월별 데이터를 그룹화**  
 
-🔹 **결과 화면**  
-<img width="316" alt="Image" src="https://github.com/user-attachments/assets/7f4aac85-b4fc-4d67-a652-ab8ee05edb2f" />
+🔹 **결과 화면**
 
+<img width="310" alt="스크린샷 2025-02-05 오전 10 24 16" src="https://github.com/user-attachments/assets/28317d48-aad2-4637-b0f0-c2222cfae521" />
 
 ---
 
@@ -27,7 +27,8 @@
    - `rental`과 `payment` 테이블을 조인하여 총 매출 기여도를 계산  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="420" alt="스크린샷 2025-02-05 오전 11 43 34" src="https://github.com/user-attachments/assets/9852676c-086a-44c5-bf37-4ee58689f41c" />
 
 ---
 
@@ -40,7 +41,8 @@
   - `rental_date`와 `return_date`를 이용해 반환까지 걸린 시간을 평균으로 계산  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="205" alt="스크린샷 2025-02-05 오전 11 44 00" src="https://github.com/user-attachments/assets/1ab27f55-f5ae-4beb-879d-d0e373e1f9c6" />
 
 ---
 
@@ -52,7 +54,10 @@
    - `inventory` 테이블과 `rental` 테이블을 `LEFT JOIN`하여 대여되지 않은 영화 목록 조회  
 
 🔹 **결과 화면**  
-`[결과 화면] -> 43건 조회되어야 함`
+
+<img width="205" alt="스크린샷 2025-02-05 오전 11 44 13" src="https://github.com/user-attachments/assets/50241c57-32e0-4189-a9f7-6149916c0958" />  
+
+`=> 43건 조회되어야 함`
 
 ---
 
@@ -64,7 +69,8 @@
 - `rental`과 `payment` 테이블을 `JOIN`하여 고객별 데이터를 집계  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="506" alt="스크린샷 2025-02-05 오전 11 47 54" src="https://github.com/user-attachments/assets/fbbfb37a-560a-41dd-b637-addeda062ab0" />
 
 ---
 
@@ -78,7 +84,8 @@
    - `film_category`와 `rental`을 `JOIN`하여 대여 데이터를 분석  
 
 🔹 **결과 분석**  
-`Action 장르의 결과`
+
+<img width="207" alt="스크린샷 2025-02-05 오전 11 48 46" src="https://github.com/user-attachments/assets/03f5283a-696d-44e0-bed3-caa096a72321" />
 
 ---
 
@@ -90,7 +97,8 @@
 - 서브쿼리(인라인 뷰) 사용하여 5회 이상 대여된 영화만 조회  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="296" alt="스크린샷 2025-02-05 오전 11 49 53" src="https://github.com/user-attachments/assets/f0c576e6-7d08-415c-a235-b70289bbc83b" />
 
 ---
 
@@ -105,7 +113,8 @@
    - 고객별 평균 대여 시간을 구한 후 최단 대여 간격 상위 5명 출력  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="646" alt="스크린샷 2025-02-05 오전 11 50 45" src="https://github.com/user-attachments/assets/1c22cd22-a2d5-4b96-bb7e-b69e0a24fe93" />
 
 ## 📢 출처
 > **더조은컴퓨터아카데미, 빅데이터 기반 AI(인공지능) 서비스 개발자 취업캠프**
