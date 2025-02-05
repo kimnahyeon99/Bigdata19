@@ -1,0 +1,70 @@
+package ContactProgram.app;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+
+
+import ContactProgram.lib.Contact;
+import ContactProgram.lib.Contact_inter;
+import ContactProgram.lib.ContactService_Imple;
+import ContactProgram.lib._ContactService;
+
+public class ContactProgram {
+
+	public static void main(String[] args) {
+		ContactService_Imple contactService = new ContactService_Imple();
+		Scanner scanner = new Scanner(System.in);
+		
+		
+		contactService.readFile(); // 파일 읽어오기
+		
+		while (true) {
+			contactService.opening(); // 메뉴출력
+			
+			try {
+				int choice = Integer.parseInt(scanner.nextLine());
+			
+				switch(choice) {
+					case 1 : // 회원추가
+						contactService.addMember();
+						break;
+					
+					case 2 : // 회원목록보기
+						contactService.showMember();
+	                    break;
+	                    
+					case 3 : // 회원정보수정
+						contactService.editMember();
+	                    break;
+	                
+					case 4 : // 회원삭제
+						contactService.deleteMember();
+	                    break;
+	                    
+					case 5 :
+						contactService.saveFile(); // 파일 저장하기
+						System.out.println("프로그램을 종료합니다.");
+						return;
+						
+					default :
+						System.out.println("잘못입력");
+				
+				}//switch end
+				
+			}catch (NumberFormatException e) {
+				System.out.println("잘못입력");
+			}
+		
+		}//while end
+		
+	}//main end
+
+}//class end
