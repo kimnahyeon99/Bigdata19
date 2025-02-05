@@ -45,42 +45,48 @@
 ### 문제 6: 각 배우가 출연한 영화의 평균 대여 횟수와 순위  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="432" alt="스크린샷 2025-02-05 오후 12 47 52" src="https://github.com/user-attachments/assets/5065568d-a719-4389-9e54-e2f8d024a71e" />
 
 ---
 
 ### 문제 7: 각 고객의 평균 대여 기간과 순위 계산  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="466" alt="스크린샷 2025-02-05 오후 12 48 05" src="https://github.com/user-attachments/assets/3d1981c7-e2a9-410a-a7d1-c3cfedb161f0" />
 
 ---
 
 ### 문제 8: 각 직원이 처리한 대여 건수의 누적 합계  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="436" alt="스크린샷 2025-02-05 오후 12 48 19" src="https://github.com/user-attachments/assets/8c5943ff-6b49-4a9a-a241-8e2c58dbc111" />
 
 ---
 
 ### 문제 9: 각 영화의 평균 대여 기간과 순위 계산  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="427" alt="스크린샷 2025-02-05 오후 12 48 27" src="https://github.com/user-attachments/assets/eef27c71-95d8-4008-9c7b-4532d557fe4c" />
 
 ---
 
 ### 문제 10: 각 카테고리별 평균 대여 횟수의 순위 계산  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="421" alt="스크린샷 2025-02-05 오후 12 48 42" src="https://github.com/user-attachments/assets/5a6624b4-855c-46c1-8b2d-bcbb6b117fcb" />
 
 ---
 
 ### 문제 11: 대여 횟수가 가장 많은 고객을 나라별로 구분하여 순위 계산  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="571" alt="스크린샷 2025-02-05 오후 1 02 46" src="https://github.com/user-attachments/assets/afb8c5ec-6ec3-475d-9554-4003b78eb656" />
 
 ---
 
@@ -90,63 +96,72 @@
 `'2005-07-01' ~ '2005-07-31'`  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="445" alt="스크린샷 2025-02-05 오후 1 02 55" src="https://github.com/user-attachments/assets/c7b9e3ee-da04-483f-bc5d-087aa3e81fd6" />
 
 ---
 
 ### 문제 13: 가장 많이 대여된 영화 TOP 5의 대여 횟수와 순위  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="443" alt="스크린샷 2025-02-05 오후 1 03 08" src="https://github.com/user-attachments/assets/83d4693d-1c79-4ee1-9731-9426023afc66" />
 
 ---
 
 ### 문제 14: 대여된 영화의 평균 수익과 순위 계산  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="441" alt="스크린샷 2025-02-05 오후 1 03 16" src="https://github.com/user-attachments/assets/548ae7f6-6da2-453c-bddf-31e9e8d3cca1" />
 
 ---
 
 ### 문제 15: 특정 배우(`PENELOPE GUINESS`)가 출연한 영화 중 가장 높은 수익을 낸 영화 순위 조회  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="616" alt="스크린샷 2025-02-05 오후 1 03 25" src="https://github.com/user-attachments/assets/a7d1446c-c074-429f-b047-64bfa1b52b60" />
 
 ---
 
 ### 문제 16: 대여 금액이 가장 높은 고객 TOP 10 계산  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="430" alt="스크린샷 2025-02-05 오후 1 08 26" src="https://github.com/user-attachments/assets/8c676c29-51ab-448f-b267-c3d8b886d39f" />
 
 ---
 
 ### 문제 17: 매월 총 수익 계산과 월별 순위  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="340" alt="스크린샷 2025-02-05 오후 1 08 34" src="https://github.com/user-attachments/assets/3c578754-b77a-49bb-a837-f13388d68523" />
 
 ---
 
 ### 문제 18: 각 배우별 평균 수익과 순위 계산 (상위 5명 조회)  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="435" alt="스크린샷 2025-02-05 오후 1 08 41" src="https://github.com/user-attachments/assets/b9961007-330d-4671-8f7a-64ce05ecf123" />
 
 ---
 
 ### 문제 19: 각 지역별 총 대여 수익과 순위 (상위 5개 조회)  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="323" alt="스크린샷 2025-02-05 오후 1 08 48" src="https://github.com/user-attachments/assets/34eb0f7d-a18e-4dcd-b310-4edd79cd7906" />
 
 ---
 
 ### 문제 20: 대여 횟수가 가장 많은 배우 10명과 출연 영화 횟수  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="641" alt="스크린샷 2025-02-05 오후 1 08 56" src="https://github.com/user-attachments/assets/f1af0263-96e5-4b46-bf4b-da7bced88bd9" />
 
 ---
 
@@ -157,7 +172,9 @@
 - **직전 결제 금액과 다음 결제 금액을 비교**하여, 현재 결제 금액이 전/후 대비 어떻게 달라졌는지 계산  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="643" alt="스크린샷 2025-02-05 오후 1 09 03" src="https://github.com/user-attachments/assets/60791e12-edd2-4f23-8379-3cc5ecdfa48d" />
+
 
 ## 📢 출처
 > **더조은컴퓨터아카데미, 빅데이터 기반 AI(인공지능) 서비스 개발자 취업캠프**
