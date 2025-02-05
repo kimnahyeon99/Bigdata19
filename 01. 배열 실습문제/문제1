@@ -1,0 +1,15 @@
+package ArrayPractice;
+public class Q01 {
+	public static void main(String[] args) {
+//		길이 10 배열 선언
+		int [] intArray = new int[10];
+		
+//		길이가 10인 배열 for문에 넣기
+		for(int i=0; i<10; i++) {
+			intArray[i] = i + 1;
+			
+			System.out.print(intArray[i]);
+			System.out.print(" ");
+		}
+	}
+}
