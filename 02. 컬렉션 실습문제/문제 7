@@ -1,0 +1,38 @@
+package CollectionPractice.app;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Scanner;
+
+public class Q7 {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		HashMap<String,Double> sl = new HashMap<>();
+		
+		// HashMap에 저장
+		System.out.println("미래장학금관리시스템입니다.");
+		for(int i=0;i<5;i++) {
+			System.out.println("이름과 학점>>");
+			String name = scanner.next(); // 이름 입력
+			double grade = scanner.nextDouble(); // 학점 입력
+			sl.put(name,grade); 
+		
+		}
+		// 장학생 기준 학점 입력
+		System.out.println("장학생 선발 학점 기준 입력 >>");
+		double standard = scanner.nextDouble();
+		
+		System.out.println("장학생 명단 : ");
+		Iterator<String> iterator = sl.keySet().iterator();
+		while(iterator.hasNext()) {
+			String name = iterator.next(); // 다음 이름
+			double grade = sl.get(name);
+			if(grade >= standard) { // 기준 학점 이상 
+				System.out.print(name + " "); // 이름 출력
+			}
+		}
+		scanner.close();
+	}
+
+}
