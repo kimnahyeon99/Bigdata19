@@ -1,0 +1,18 @@
+-- 2번 : 특정배우가 출연한 영화가 총 매출에 얼마나 기여했는지 조회
+-- 배우이름, 영화제목, 총 수익 나열
+SELECT a.first_name, a.last_name,
+		f.title as film_title,
+		SUM(p.amount) as total_revenue
+ FROM actor a
+ INNER JOIN film_actor fa on a.actor_id = fa.actor_id -- 배우 정보가져오기
+ INNER JOIN film f on fa.film_id = f.film_id -- 영화 정보가져오기
+ INNER JOIN inventory i on f.film_id = i.film_id -- 재고 정보가져오기
+ INNER JOIN rental r on i.inventory_id = r.inventory_id -- 대여기록 정보가져오기
+ INNER JOIN payment p on r.rental_id = p.rental_id -- 대여로 번 돈 정보가져오기
+-- 배우 이름이 TIM HACKMAN인 데이터만 선택
+WHERE a.first_name = 'TIM' AND a.last_name = 'HACKMAN'
+-- 영화별로 총 수익을 계산하려고 이름과 제목별로 나눠서 묶음
+GROUP BY a.first_name, a.last_name, f.title
+-- 계산된 총 수익을 기준으로 내림차순 정렬
+ORDER BY total_revenue DESC
+;
