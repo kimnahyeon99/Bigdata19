@@ -5,35 +5,40 @@
 ### 문제 1: 각 배우의 총 출연 횟수와 순위를 계산하라.  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="389" alt="스크린샷 2025-02-05 오전 11 55 18" src="https://github.com/user-attachments/assets/327815b3-e261-4ffa-ab70-04bbca84a912" />
 
 ---
 
 ### 문제 2: 각 영화의 총 대여 횟수와 해당 영화의 순위 계산 (동순위 처리 필요)  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="369" alt="스크린샷 2025-02-05 오전 11 55 31" src="https://github.com/user-attachments/assets/86cc191d-4d61-4f44-bbd7-a624f3b05eb0" />
 
 ---
 
 ### 문제 3: 각 고객의 대여 횟수와 고객의 순위 계산  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="368" alt="스크린샷 2025-02-05 오전 11 55 45" src="https://github.com/user-attachments/assets/12411cbb-5a25-4712-a509-2eb42198fe0e" />
 
 ---
 
 ### 문제 4: 대여가 가장 많은 직원과 그 순위 계산  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="403" alt="스크린샷 2025-02-05 오전 11 56 00" src="https://github.com/user-attachments/assets/b828d831-f2d9-4e87-8560-9c2e03a76b96" />
 
 ---
 
 ### 문제 5: 각 카테고리에서 가장 많이 대여된 영화의 순위  
 
 🔹 **결과 화면**  
-`[결과 화면]`
+
+<img width="648" alt="스크린샷 2025-02-05 오전 11 56 17" src="https://github.com/user-attachments/assets/28b5fc3e-d5f3-4aec-8a76-32e766be7a74" />
 
 ---
 
