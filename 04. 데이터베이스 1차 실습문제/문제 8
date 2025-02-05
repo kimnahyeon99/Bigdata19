@@ -1,0 +1,19 @@
+-- 8번 : 고객들이 평균적으로 얼마나 자주 영화를 대여하는지 분석하여 평균 대여 시간 가장 짧은 고객 5명 조회
+SELECT y.customer_id,
+		CONCAT(c.first_name," ",c.last_name) as customer_name,
+		AVG(y.x) as avg_rental_interval
+ FROM(
+		SELECT customer_id,
+ 				DATEDIFF(rental_date, -- rental_date와 이전 행 rental_date 차이 계산. // null값은 무시됨.
+ 				-- lag = 현재 행의 rental_date 보다 한 행위에 있는 행의 대여날짜를 가져옴.
+ 				-- partition = 고객별로 데이터를 그룹화해서 각 고객의 데이터를 다른것과 섞이지 않게 처리해줌.
+ 				-- order by = 고객별 데이터를 대여날짜 순서대로 정렬함.
+ 				-- 즉, x = 고객이 영화를 빌린 날짜 차이
+ 				LAG(rental_date) OVER(PARTITION by customer_id ORDER BY rental_date))as x
+ 		 FROM rental r
+ )as y
+INNER JOIN customer c on y.customer_id = c.customer_id
+GROUP BY y.customer_id, customer_name
+ORDER BY avg_rental_interval
+LIMIT 5
+;
