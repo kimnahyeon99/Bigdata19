@@ -1,0 +1,114 @@
+package CollectionPractice.lib;
+public class Nation {
+	String country;
+	String capital;
+	
+	public Nation(String country, String capital) {
+		this.country = country;
+		this.capital = capital;
+		
+		
+	}
+	public String getCountry() {
+		return country;
+	}
+	public String getCapital() {
+		return capital;
+	}
+	
+}
+
+
+
+
+===<main>===
+package CollectionPractice.app;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Scanner;
+
+import CollectionPractice.lib.Nation;
+
+public class Q9 {
+	private static Scanner scanner = new Scanner(System.in);
+	private static ArrayList<Nation> nation = new ArrayList<>();
+
+	public static void main(String[] args) {
+		while(true) {
+			try {
+				System.out.println("입력:1.퀴즈:2,종료:3>>");
+				int choice = scanner.nextInt();
+				scanner.nextLine();
+				//나라와 수도 입력
+				if(choice == 1) {
+					while(true) {
+						System.out.print("나라와 수도 입력" + nation.size() + " >>");
+						String input = scanner.nextLine();
+						if(input.equals("그만")) {
+							break;
+						}
+						
+						String [] index = input.split(" ");
+						if(index.length != 2) {
+							System.out.println("잘못입력");
+							continue;
+						}
+						
+						String country = index[0];
+						String capital = index[1];
+						
+						//중복검사
+						boolean exist = false; // 중복 아니면 false
+						//iterator사용해서 입력된 나라 가져오기
+						Iterator<Nation> iterator = nation.iterator();
+						while(iterator.hasNext()) {
+							Nation nation = iterator.next();
+							if(nation.getCountry().equals(country)) {
+								System.out.println(country + "는 이미 있습니다.");
+								exist = true; //중복이면 true
+								break;//중복된 나라를 찾으면 break
+							}
+						}
+						//중복아니면 추가
+						if(!exist) {
+							nation.add(new Nation(country, capital));
+							System.out.println("현재 "  + nation.size() + "개 나라와 수도가 입력되어 있습니다.");
+						}
+					}
+				}else if(choice == 2) { //퀴즈
+					if(nation.size() == 0 ) { //나라,수도를 입력하지 않고 퀴즈 시작하면 => 잘못입력
+						System.out.println("잘못입력");
+						continue;
+					}
+					boolean quiz = false;
+					while(!quiz) {
+						Iterator<Nation> iterator = nation.iterator();
+						while(iterator.hasNext()) {
+							Nation nation = iterator.next();
+							System.out.print(nation.getCountry() + "의 수도는?");
+							String answer = scanner.nextLine();
+							
+							if(answer.equals("그만")) {
+								quiz = true;
+								break;
+							}
+							if(answer.equals(nation.getCapital())) {
+								System.out.println("정답!");
+							}else {
+								System.out.println("아닙니다!");
+							}
+						}
+					}
+				}else if(choice == 3) {
+					System.out.println("게임을 종료합니다.");
+					break;
+				}
+			}catch(Exception e) { // 숫자를 입력하지 않았을 때의 예외처리
+				System.out.println("잘못입력");
+				scanner.nextInt();
+			}
+		}
+	}
+
+}
