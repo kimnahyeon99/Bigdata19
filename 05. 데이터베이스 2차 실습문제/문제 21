@@ -1,0 +1,11 @@
+-- 문제 21 : 고객별 결제 금액 추세 비교(이전/다음 결제 금액으로부터 증감 계산)
+SELECT customer_id, 
+		payment_date,
+		amount, 
+		LAG(amount) over(PARTITION BY customer_id ORDER BY payment_date) as prev_amount,
+		LEAD(amount) OVER(PARTITION BY customer_id ORDER BY payment_date) as next_amount,
+		amount - LAG(amount) OVER (PARTITION BY customer_id ORDER BY payment_date) as diff_with_prev,
+		LEAD(amount) OVER (PARTITION BY customer_id ORDER BY payment_date) - amount as diff_with_next
+  FROM payment p
+ ORDER BY customer_id, payment_date
+ ;
