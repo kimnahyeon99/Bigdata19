@@ -1,0 +1,31 @@
+package ArrayPractice;
+import java.util.Scanner;
+public class Q07 {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		int sum = 0;
+		System.out.println("정수 : ");
+		//배열 길이 입력받고 그 길이만큼 정수형 배열 선언
+		int length = scanner.nextInt();
+		int [] intArray = new int[length];
+		
+		//각 인데스에 넣을 값 입력 받아 저장
+		for(int i=0;i<length;i++) {
+			System.out.print("배열" + i + "번째 인덱스에 넣을 값 : ");
+			intArray[i] = scanner.nextInt();
+		}
+		
+		//배열 값 출력
+		System.out.println(" ");
+		for(int i=0; i<length; i++) {
+			System.out.print(intArray[i] + " ");
+			sum = sum + intArray[i]; // 누적합
+		}
+		
+		//총합 출력
+		System.out.println();
+		System.out.println("총 합 : " + sum);
+		
+		scanner.close();
+	}
+}
