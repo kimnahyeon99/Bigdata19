@@ -1,0 +1,66 @@
+package CollectionPractice.app;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Q22 {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		
+		ArrayList<String>grades = new ArrayList<>();
+		
+		while(grades.size()!=6) {
+			System.out.println("6개 학점을 빈칸으로 분리 입력(A/B/C/D/F)");
+			String input = scanner.nextLine();
+			
+			//공백 기준으로 문자열 분리
+			String[]gradeArray = input.split(" ");
+			
+			if(gradeArray.length!=6) {
+				System.out.println("잘못입력");
+				continue;
+			}
+			//학점 A,B,C,D,F 확인하고 ArrayList에 추가
+			for(int i=0;i<6;i++) {
+				switch(gradeArray[i]){
+				case "A":
+				case "B":
+				case "C":
+				case "D":
+				case "F":
+					grades.add(gradeArray[i]);
+					break;
+				default:
+					System.out.println("잘못입력");
+				}
+			}
+		}
+		double sum  = 0.0;
+		
+		for(int i=0;i<grades.size();i++) {
+			String grade = grades.get(i);
+			double score = 0.0;
+			switch(grade) {
+			case "A" :
+				score = 4.0;
+				break;
+			case "B" :
+				score = 3.0;
+				break;
+			case "C" :
+				score = 2.0;
+				break;
+			case "D" :
+				score = 1.0;
+				break;
+			case "F" :
+				score = 0;
+			}
+			sum = sum + score;
+		}
+		double average = sum/grades.size();
+		System.out.println("평균 학점 : " + average);
+	}
+
+}
