@@ -1,0 +1,40 @@
+package ArrayPractice;
+
+import java.util.Random;
+
+public class Q13 {
+
+	public static void main(String[] args) {
+		
+		Random random = new Random();
+		//10개 정수 배열 선언
+		int[] intArray = new int[10];
+		//난수 생성
+		for(int i=0; i<intArray.length; i++) {
+			int Number;
+			
+			while(true) {
+				Number = random.nextInt(10) + 1; // 1~10까지 난수 생성	
+			//중복 체크
+				int j;
+				for(j=0; j<i; j++) { //현재까지 배열에 추가된 숫자(i)까지만 비교
+					if(intArray[j]==Number) {
+					break; //중복이면 종료
+					}
+				}
+			
+				//중복이 아닌 경우 배열에 추가
+				if(j==i) { //j가 i와 같으면 중복 아님
+				intArray[i] = Number; // 중복아니면 난수 배열 추가
+				break; // 난수 생성 종료
+				}
+			}
+		}
+		//배열 출력
+		for(int num : intArray) {
+			System.out.print(num + " ");
+		}
+		
+		
+	}
+}	
