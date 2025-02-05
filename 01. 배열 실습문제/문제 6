@@ -1,0 +1,21 @@
+package ArrayPractice;
+import java.util.Scanner;
+public class Q06 {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		//"월"~"일" 문자열
+		String[]days = {"월","화","수","목","금","토","일"};
+		
+		//0~6까지 숫자 입력
+		System.out.println("0~6 사이 숫자 입력 : ");
+		int number = scanner.nextInt(); //정수입력받고 저장
+		
+		//0~6사이면 입력한 숫자와 같은 인덱스에 있는 요일 출력, 아니면 "잘못 입력하셨습니다" 출력
+		if(number>=0 && number<=6) {
+			System.out.println(days[number] + "요일");
+		}else {
+			System.out.println("잘못 입력하셨습니다.");
+		}
+		scanner.close();
+	}
+}
