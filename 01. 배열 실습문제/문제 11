@@ -1,0 +1,24 @@
+package ArrayPractice;
+
+import java.util.Random;
+
+public class Q11 {
+
+	public static void main(String[] args) {
+		//10개 값 정수 배열 생성
+		int[] intArray = new int[10];
+		
+		//난수 생성
+		Random random = new Random();
+		
+		//배열에 1~10 난수 넣기
+		for(int i=0; i<intArray.length; i++) {
+			intArray[i] = random.nextInt(10) + 1;
+		}
+		
+		for(int i=0; i<intArray.length; i++) {
+			System.out.print(intArray[i] + " ");
+		}
+	}
+
+}
