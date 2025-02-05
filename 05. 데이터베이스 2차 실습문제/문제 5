@@ -1,0 +1,24 @@
+-- 문제 5 : 각 카테고리에서 가장 많이 대여된 영화의 순위
+WITH category_rental as (
+    SELECT c.category_id,
+        c.name AS category_name,
+        f.film_id,
+        f.title,
+        COUNT(r.rental_id) AS total_rentals,
+       ROW_NUMBER () OVER ( PARTITION BY c.category_id ORDER BY COUNT(r.rental_id) DESC) AS rank_num
+      FROM category c
+     INNER JOIN film_category fc ON c.category_id = fc.category_id
+     INNER JOIN film f ON fc.film_id = f.film_id
+     INNER JOIN inventory i ON f.film_id = i.film_id
+     INNER JOIN rental r ON i.inventory_id = r.inventory_id
+     GROUP BY c.category_id, c.name, f.film_id, f.title
+)
+SELECT category_id,
+    	category_name,
+    	film_id,
+    	title,
+    	total_rentals,
+    	rank_num
+ FROM category_rental
+ORDER BY category_id
+;
