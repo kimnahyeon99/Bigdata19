@@ -1,0 +1,13 @@
+-- 문제 19 : 각 지역별 총 대여 수익과 순위 = 상위 5명 조회
+SELECT co.country as country,
+		SUM(p.amount) as total_revenue,
+		RANK() OVER (ORDER BY SUM(p.amount)DESC) as rank_num
+  FROM payment p 
+  JOIN rental r on p.rental_id = r.rental_id 
+  JOIN customer c on r.customer_id = c.customer_id 
+  JOIN address a on c.address_id = a.address_id 
+  JOIN city ci on a.city_id = ci.city_id
+  JOIN country co on ci.country_id = co.country_id
+ GROUP BY co.country
+ ORDER BY rank_num
+ LIMIT 5;
