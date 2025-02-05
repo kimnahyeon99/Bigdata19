@@ -1,0 +1,23 @@
+package ArrayPractice;
+import java.util.Scanner;
+public class Q03 {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		
+		// 양의 정수 입력 받기
+		System.out.println("양의 정수 : ");
+		int number = scanner.nextInt();
+		
+		// 입력 받은 정수만큼 배열 크기 할당
+		int[] intArray = new int[number];
+		
+		for(int i=0;i<number;i++) {
+			intArray[i] = i + 1;
+		}
+		//출력
+		for(int i=0;i<number;i++) {
+			System.out.print(intArray[i] + " ");
+		}
+		scanner.close();
+	}
+}
