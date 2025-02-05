@@ -1,0 +1,24 @@
+-- 4번 : 대여되지 않은 영화 조회
+-- 중복된 영화 제목이 없게 가져오기
+SELECT DISTINCT f.title
+ FROM film f
+ -- 모든 영화를 가져오고 영화 재고가 있으면 연결, 재고가 없는 영화는 NULL
+ LEFT JOIN inventory i on f.film_id = i.film_id
+ -- 재고에서 대여 기록이 있으면 연결, 대여 기록이 없는 영화는 NULL
+ LEFT JOIN rental r on i.inventory_id = r.inventory_id
+ -- 대여 기록이 없는 영화만 고르기
+ WHERE r.rental_id IS NULL
+;
+-- NOT EXISTS 사용
+SELECT DISTINCT f.title
+ FROM film f
+ LEFT JOIN inventory i on f.film_id = i.film_id
+-- 조건을 만족하는 데이터가 없을 때 TRUE
+-- 즉 영화의 재고가 한번도 대여된 적이 없는 경우에 TRUE
+WHERE NOT EXISTS (
+		SELECT 1
+		  FROM rental r
+		  -- 재고가 대여된적이 있는지 확인
+		  WHERE r.inventory_id = i.inventory_id
+)
+;
