@@ -1,0 +1,92 @@
+package CollectionPractice.lib;
+
+public class Q5 {
+	private String name; // 이름
+	private String department; // 학과
+	private int id; // 학번
+	private double average; // 평균
+	
+	public Q5(String name, String department, int id, double average) {
+		this.name = name;
+		this.department = department;
+		this.id = id;
+		this.average = average;
+	}
+//	변경은 안되게 가져오기만 가능하게 = set을 사용x
+	public String getName() {
+		return name;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public double getAverage() {
+		return average;
+	}
+
+
+}
+
+===<main>===
+package CollectionPractice.app;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import CollectionPractice.lib.Q5;
+
+public class Q5ex {
+
+	public static void main(String[] args) {
+		ArrayList<Q5> students = new ArrayList<>(); // ArrayList에 학생정보를 저장
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		students.add(new Q5("황기태", "모바일", 1, 4.1));
+		students.add(new Q5("이재문", "안드로이드", 2, 3.9));
+		students.add(new Q5("김남윤", "웹공학", 3, 3.5));
+		students.add(new Q5("최찬미", "빅데이터", 4, 4.25));
+		
+		// ArrayList에 저장된 학생 정보 출력
+		System.out.println("학생 이름, 학과, 학번, 학점 평균 입력하세요.");
+		for(int i=0; i<students.size();i++) {
+			Q5 student = students.get(i);
+			System.out.println(student.getName() + ", " + student.getDepartment() 
+								+ ", " + student.getId() + ", " + student.getAverage());
+		}
+		
+		//	학생 이름 입력받기
+		System.out.println("학생 이름 입력 : ");
+		String studentName = scanner.nextLine();
+		
+		// 학생 이름으로 평균 검색
+		try { 
+			int index = -1; //0은 있으니까 초기화 할때 -1로 초기화해야함
+			for(int i=0;i<students.size();i++) {
+				Q5 student = students.get(i);
+				if(student.getName().equals(studentName)) {
+					index = i; // 학생이름이 일치하면 기록
+					break; // 이름 찾았으면 break
+				}
+			}
+			if(index != 0) {
+				Q5 student = students.get(index);
+				System.out.println("학생 : " + studentName + ", 평균 : " + student.getAverage());
+			}else {
+				System.out.println("잘못 입력");
+			}
+		}catch(Exception e) { //학생이름 잘못입력했을 때의 예외처리
+			System.out.println("잘못입력");
+		}
+		
+		
+	scanner.close();
+		
+	}
+
+}
