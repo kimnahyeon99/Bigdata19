@@ -1,0 +1,17 @@
+-- 문제 8 : 각 직원이 처리한 대여 건수의 누적 합계
+WITH staff_rental as(
+	SELECT s.staff_id,
+			CONCAT(s.first_name, ' ', s.last_name) AS staff_name,
+			r.rental_date,
+			ROW_NUMBER() OVER (PARTITION BY s.staff_id ORDER BY r.rental_date) AS cumulative_rentals
+	  FROM staff s 
+	  JOIN rental r on s.staff_id = r.staff_id
+	 ORDER BY staff_id, rental_date
+)
+   SELECT staff_id,
+    	staff_name,
+    	rental_date,
+    	cumulative_rentals
+FROM staff_rental
+ORDER BY staff_id, rental_date
+;
