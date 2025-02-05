@@ -1,0 +1,45 @@
+-- 7번 : 특정기간(2005-05-01 ~ 2005-05-31)동안 5회 대여된 영화 목록과 대여 건수 조회
+SELECT f.title as film_title,
+		COUNT(*) as rental_count
+ FROM rental r
+ INNER JOIN inventory i on r.inventory_id = i.inventory_id
+ INNER JOIN film f on i.film_id = f.film_id
+WHERE r.rental_date BETWEEN '2005-05-01' AND '2005-05-31'
+GROUP BY f.title
+-- 그룹화된 데이터에 조건을 적용, renta_count(대여횟수)가 5 이상인 영화선택
+HAVING rental_count = 5
+ORDER BY rental_count DESC
+;
+
+
+-- 인라인뷰 사용
+SELECT film_title, rental_count
+ FROM ( -- 2005년 5월 한달동안 영화가 몇 번 대여됐는지 확인
+ 		SELECT f.title as film_title, -- 영화 제목
+ 				COUNT(*) as rental_count -- 영화 대여 횟수
+ 		  FROM rental r
+ 		  INNER JOIN inventory i on r.inventory_id = i.inventory_id
+ 		  INNER JOIN film f on i.film_id = f.film_id
+ 		 WHERE r.rental_date BETWEEN '2005-05-01' AND '2005-05-31'
+ 		 GROUP BY f.title -- 제목별로 데이터 묶기
+ ) as x
+ -- rental_count(대여횟수)가 5이상인 영화 선택
+ WHERE rental_count = 5
+ -- 대여횟수가 많은 영화부터 내림차순으로 정렬
+ ORDER BY rental_count DESC
+;
+
+
+-- 인라인뷰 사용
+SELECT f.title AS film_title,
+   	COUNT(x.rental_id) AS rental_count
+ FROM film f
+  INNER JOIN(
+     		SELECT r.rental_id, r.inventory_id ,i.film_id
+     		FROM rental r
+     		INNER JOIN inventory i ON r.inventory_id = i.inventory_id
+     		WHERE r.rental_date between '2005-05-01' and '2005-05-31'
+  ) as x ON x.film_id = f.film_id
+ GROUP BY f.film_id
+ HAVING  rental_count = 5
+;
