@@ -1,0 +1,37 @@
+package ArrayPractice;
+import java.util.Scanner;
+public class Q08 {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		
+		int number = 0;
+		
+		//반복문으로 돌리다가 홀수이거나 3이상일 경우 break
+		while(true) {
+			System.out.println("정수 : ");
+			number = scanner.nextInt();
+			if(number>=3 && number%2!=0) {
+				break;
+			}else {
+				System.out.4println("다시 입력하세요.");
+			}
+		}
+		//숫자크기만큼 배열 생성
+		int [] intArray = new int [number];
+		
+		//숫자 반까지는 오름차순, 반 이후로는 내림차순
+		for(int i=0;i<number;i++) {
+			if(i <= number/2) {
+				intArray[i] = i + 1;
+			}else {
+				intArray[i] = number - i;
+			}
+		}
+		
+		for(int i=0;i<number;i++) {
+			System.out.print(intArray[i] + " ");
+		}
+			
+		scanner.close();
+	}
+}
