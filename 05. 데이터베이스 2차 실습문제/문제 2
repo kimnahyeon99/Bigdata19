@@ -1,0 +1,11 @@
+-- 문제 2 : 각 영화의 총 대여 횟수와 해당 영화의 순위 계산 - 동순위 처리 필요
+SELECT f.film_id,
+		f.title,
+		COUNT(r.rental_id)as total_rentals,
+		DENSE_RANK () over (ORDER by COUNT(r.rental_id)DESC) as rank_num
+  FROM film f 
+ INNER JOIN inventory i on f.film_id = i.film_id 
+ INNER JOIN rental r on i.inventory_id = r.inventory_id
+ GROUP by f.film_id, f.title
+ ORDER by rank_num
+;
