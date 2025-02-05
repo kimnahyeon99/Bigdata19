@@ -1,0 +1,52 @@
+package CollectionPractice.app;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Scanner;
+
+public class Q8 {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		HashMap<String, Integer> customer = new HashMap<>();
+		//이름, 포인트 입력받기
+		while(true) {
+			System.out.println("이름과 포인트 입력 >>");
+			String input = scanner.nextLine();
+			
+			if(input.equals("그만")) {
+				break;
+			}
+			
+			String[] index = input.split(" "); // 공백을 기준으로 배열 저장
+			String name = index[0]; // 고객 이름
+			int point = 0;
+			
+			try {
+				point = Integer.parseInt(index[1]); // 포인트
+			}catch(NumberFormatException e) { // 포인트가 숫자가 아닐때 예외처리
+				System.out.println("잘못입력");
+				continue;
+			}
+			
+			if(customer.containsKey(name)) { //고객 이름이 HashMap에 있는지 확인
+				customer.put(name, customer.get(name) + point); // 없으면 기존 포인트에 입력받은 포인트 더해 입력
+			}else {
+				customer.put(name, point); // 존재하지 않으면 새 이름과 포인트 추가
+			}
+			
+			System.out.print("(");
+			Iterator<String> iterator = customer.keySet().iterator(); // key(고객 이름) 반복자 생성
+			while(iterator.hasNext()) { // 반복
+				String customerName = iterator.next();
+				System.out.print(customerName + "," + customer.get(customerName));
+				if(iterator.hasNext()) { 
+					System.out.print(")(");
+				}
+			}
+			System.out.println(")");
+		}
+		scanner.close();
+	}
+
+}
