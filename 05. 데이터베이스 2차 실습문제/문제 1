@@ -1,0 +1,25 @@
+-- 문제 1 : 각 배우의 총 출연 횟수와 순위를 계산하라
+SELECT a.actor_id,
+    	CONCAT(a.first_name, ' ', a.last_name) as actor_name,
+    	COUNT(fa.film_id) as total_films,
+    	RANK() over (ORDER by COUNT(fa.film_id) DESC) as rank_num
+  FROM actor a
+ INNER JOIN film_actor fa on a.actor_id = fa.actor_id
+ GROUP by a.actor_id, a.first_name, a.last_name
+ ORDER by rank_num
+;
+
+WITH actor_film AS (
+    SELECT a.actor_id,
+        	CONCAT(a.first_name, ' ', a.last_name) AS actor_name,
+        	COUNT(fa.film_id) AS total_films
+      FROM actor a
+     INNER JOIN film_actor fa ON a.actor_id = fa.actor_id
+     GROUP BY a.actor_id, a.first_name, a.last_name
+) 
+SELECT 
+    actor_id, actor_name, total_films, 
+    RANK() OVER (ORDER BY total_films DESC) AS rank_num
+FROM actor_film
+ORDER BY rank_num
+;
