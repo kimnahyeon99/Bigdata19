@@ -1,0 +1,13 @@
+-- 문제 18 : 각 배우별 평균 수익과 순위 계산 = 상위 5명 조회
+SELECT a.actor_id,
+		CONCAT(a.first_name,' ',a.last_name) as actor_name,
+		AVG(p.amount)as avg_revenue,
+		RANK () OVER(ORDER BY AVG(p.amount)DESC) as rank_num
+  FROM actor a 
+  JOIN film_actor fa on a.actor_id = fa.actor_id 
+  JOIN inventory i on fa.film_id = i.film_id 
+  JOIN rental r on i.inventory_id = r.inventory_id 
+  JOIN payment p on r.rental_id = p.rental_id 
+ GROUP BY a.actor_id, a.first_name, a.last_name 
+ ORDER BY rank_num
+ LIMIT 5;
