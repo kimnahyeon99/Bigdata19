@@ -1,0 +1,45 @@
+package ArrayPractice;
+import java.util.Scanner;
+public class Q05 {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		
+		//문자열 = string, 문자 = word
+		
+		//문자열 입력
+		System.out.println("문자열 : ");
+		String string = scanner.nextLine();
+		
+		//문자 입력
+		System.out.println("문자 : ");
+		char word = scanner.next().charAt(0);
+		
+		//위치와 개수 저장
+		int count=0; //문자 개수
+		int[] index = new int[string.length()]; //인덱스 저장
+		int indexCount=0; // 저장된 인덱스 개수
+		
+		//문자열에서 문자 검색
+		for(int i=0;i<string.length();i++) {
+			char ch = string.charAt(i);
+				if(ch == word) {
+					index[indexCount] = i; //인덱스 저장
+					indexCount++; //인덱스개수 증가
+					count++; //개수 증가
+				}
+		}
+	
+		//출력
+		System.out.println(string + "에" + word + "가 존재하는 위치(인덱스) : ");
+		for(int i=0; i<indexCount;i++) {
+			System.out.print(index[i] + " "); //문자출력
+		}
+		
+		
+		System.out.println();
+		System.out.println(word + " 개수 : " + count);
+		
+		scanner.close();
+		
+	}
+}
