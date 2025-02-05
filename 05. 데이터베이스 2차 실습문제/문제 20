@@ -1,0 +1,11 @@
+-- 문제 20 : 대여 횟수가 가장 많은 배우 10명과 출연 영화 횟수
+SELECT a.actor_id,
+		CONCAT(a.first_name, ' ', a.last_name) as actor_name,
+		COUNT(fa.film_id) as total_films,
+		ROW_NUMBER () OVER (ORDER by COUNT(fa.film_id) DESC) as rank_num
+  FROM actor a 
+  JOIN film_actor fa on a.actor_id = fa.actor_id 
+  JOIN film f on fa.film_id = f.film_id
+  GROUP BY a.actor_id, actor_name
+  ORDER BY total_films DESC 
+  LIMIT 10;
