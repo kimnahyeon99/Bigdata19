@@ -1,0 +1,14 @@
+-- 3번 : 어떤 매장이 가장 신속하게 대여 및 반환 처리를 하는지 조회
+-- 매장 id, 평균 시간 나열
+SELECT i.store_id,
+       -- 영화가 대여된 시간과 반납된 시간의 차이를 계산 후 각 매장에서 영화 반납 시간 평균 계산
+		AVG(TIMESTAMPDIFF(HOUR, r.rental_date, r.return_date)) as avg_return_time
+ FROM rental r
+ INNER JOIN inventory i on r.inventory_id = i.inventory_id
+-- 대여 날짜가 없는 데이터를 제외 (없어도 됨)
+WHERE r.rental_date IS NOT NULL
+-- 매장 ID별로 데이터를 묶음
+GROUP BY i.store_id
+-- 평균 반납 시간 기준으로 정렬
+ORDER by avg_return_time
+;
