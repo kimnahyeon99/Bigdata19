@@ -1,0 +1,19 @@
+-- 1번 : 매장의 월별 매출 조회
+-- payment - rental - staff 연결
+-- rental 테이블을 연결한 이유 : staff 고정되어있고 inventory는 이동해도 값이 변해서 사용 못함
+SELECT stf.store_id, -- 매장별
+     date_format(p.payment_date, '%Y-%m') as month, -- 결제날짜를 연-월 형식으로 변환
+     sum(p.amount) as total_revenue
+FROM payment p
+-- payment - rental 테이블 연결
+-- 각 payment가 어떤 rental_id와 연결되있는지 확인
+INNER JOIN rental r on p.rental_id = r.rental_id
+-- rental - staff 테이블 연결
+-- 어떤 staff가 대여 처리 했는지 확인 후 그 직원이 있는 store_id 가져옴
+INNER JOIN staff stf on r.staff_id = stf.staff_id
+-- 매장별, 월별로 데이터 묶기
+GROUP BY stf.store_id, month
+-- 매장 ID와 월 기준으로 정렬
+ORDER BY stf.store_id, month
+;
+
