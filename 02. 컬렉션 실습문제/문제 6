@@ -1,0 +1,80 @@
+package CollectionPractice.lib;
+
+public class Location {
+	private int latitude; // 위도
+	private int longtitude; // 경도
+	
+	public Location(int latitude, int longtitude) {
+		this.latitude = latitude;
+		this.longtitude = longtitude;
+	}
+
+	public int getLatitude() {
+		return latitude;
+	}
+
+	public int getLongtitude() {
+		return longtitude;
+	}
+	
+}
+
+===<main>===
+package CollectionPractice.app;
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+import CollectionPractice.lib.Location;
+
+public class Q6 {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		HashMap<String, Location> cm = new HashMap<>();
+		// 도시 정보 입력하기
+		System.out.println("도시, 경도, 위도를 입력하세요.");
+		while(true) {
+			String input = scanner.nextLine(); // 입력값 받기
+			
+			if(input.isEmpty()) { // 입력값 비어있으면 종료
+				break;
+			}
+			// "" 기준으로 나누기
+			String[] index = input.split(" ");
+			if(index.length !=3) {
+				System.out.println("잘못 입력");
+				continue;
+			}
+			String city = index[0]; // 도시 이름
+			try {
+				int latitude = Integer.parseInt(index[1]); // 위도
+				int longitude = Integer.parseInt(index[2]); // 경도
+				// HashMap에 저장
+				cm.put(city, new Location(latitude, longitude));
+			}catch(NumberFormatException e) { // 위도, 경도 정수가 아닐때의 예외처리
+				System.out.println("잘못입력");
+			}
+		}
+		// 도시 이름 검색
+		while(true) {
+			System.out.println("도시 이름 >>");
+			String searchCity = scanner.nextLine(); // 검색할 도시 입력받기
+			
+			if(searchCity.equals("그만")) {
+				break;
+			}
+			// HashMap에서 도시 검색
+				Location lo = cm.get(searchCity);
+				if(lo != null) { // 도시 존재하면 정보 출력
+					System.out.println(searchCity + " " + lo.getLatitude() + " " + lo.getLongtitude());
+				}else {
+					System.out.println(searchCity + "는 없습니다.");
+				}
+			
+		}
+		scanner.close();
+	}
+
+}
+
