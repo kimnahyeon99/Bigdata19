@@ -1,0 +1,37 @@
+-- 문제 6 : 각 배우가 출연한 영화의 평균 대여 횟수와 순위
+WITH film_rental as(
+	SELECT f.film_id, 
+			COUNT(r.rental_id) AS rental_count
+	  FROM film f 
+	  JOIN inventory i on f.film_id = i.film_id
+	  JOIN rental r on i.inventory_id = r.inventory_id
+	 GROUP by f.film_id 
+),
+actor_film_rental as(
+  	SELECT a.actor_id,
+        	CONCAT(a.first_name, ' ', a.last_name) AS actor_name,
+      		AVG(fr.rental_count) AS avg_film_rentals
+  	  FROM actor a 
+  	  JOIN film_actor fa on a.actor_id = fa.actor_id
+  	  JOIN film_rental fr on fa.film_id = fr.film_id
+  	 GROUP by a.actor_id, a.first_name, a.last_name
+  )
+  SELECT actor_id,
+    	actor_name,
+   	 	avg_film_rentals,
+    	RANK() OVER (ORDER BY avg_film_rentals DESC) AS rank_num
+    FROM actor_film_rental
+;
+
+SELECT 
+    a.actor_id, 
+    CONCAT(a.first_name, ' ', a.last_name) AS actor_name,
+    AVG(f.rental_rate) AS avg_film_rentals,
+    RANK() OVER (ORDER BY AVG(f.rental_rate) DESC) AS rank_num
+FROM actor a
+JOIN film_actor fa ON a.actor_id = fa.actor_id
+JOIN film f ON fa.film_id = f.film_id
+JOIN inventory i ON f.film_id = i.film_id
+JOIN rental r ON i.inventory_id = r.inventory_id
+GROUP BY a.actor_id, actor_name
+ORDER BY rank_num;
