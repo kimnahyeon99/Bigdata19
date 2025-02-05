@@ -1,0 +1,14 @@
+WITH customer_rental as(
+	SELECT c.customer_id, 
+			CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
+        	AVG(DATEDIFF(r.return_date, r.rental_date)) AS avg_rental_duration
+	  FROM customer c 
+	  JOIN rental r on c.customer_id = r.customer_id 
+	 GROUP by c.customer_id, c.first_name, c.last_name
+)
+ SELECT customer_id, 
+ 		customer_name, 
+ 		avg_rental_duration, 
+ 		RANK() OVER (ORDER BY avg_rental_duration DESC) AS rank_num
+   FROM customer_rental
+;
