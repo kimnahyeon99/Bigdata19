@@ -35,3 +35,32 @@ JOIN inventory i ON f.film_id = i.film_id
 JOIN rental r ON i.inventory_id = r.inventory_id
 GROUP BY a.actor_id, actor_name
 ORDER BY rank_num;
+
+===with문 하나로===
+WITH cte
+as (
+SELECT
+   fa.actor_id,
+    f.film_id,
+    COUNT(r.rental_id) AS rental_count
+FROM
+    film f 
+    inner join film_actor fa ON fa.film_id = f.film_id
+    inner join inventory i ON f.film_id = i.film_id
+    inner join rental r ON i.inventory_id = r.inventory_id
+GROUP BY
+   fa.actor_id,
+    f.film_id
+)
+select
+   a.actor_id,
+    a.first_name,
+    a.last_name,
+   AVG(rental_count) AS avg_film_rentals,
+   RANK() OVER (ORDER BY AVG(rental_count) DESC) AS rank_num
+FROM 
+   cte
+   inner join actor a on a.actor_id= cte.actor_id
+group by
+   cte.actor_id   
+;
