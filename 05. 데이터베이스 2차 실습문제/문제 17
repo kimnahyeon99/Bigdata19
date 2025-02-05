@@ -1,0 +1,7 @@
+-- 문제 17 : 매월 총 수익 계산과 월별 순위
+SELECT DATE_FORMAT(p.payment_date, '%Y-%m') AS payment_month,
+    	SUM(p.amount) AS total_revenue,
+    	RANK() OVER (ORDER BY SUM(p.amount) DESC) AS rank_num
+  FROM payment p
+ GROUP BY DATE_FORMAT(p.payment_date,'%Y-%m')
+ ORDER BY rank_num;
