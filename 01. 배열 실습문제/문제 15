@@ -1,0 +1,45 @@
+package ArrayPractice;
+
+import java.util.Scanner;
+
+public class Q15 {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("문자열 : ");
+		String string = scanner.nextLine(); //문자열 입력받기
+		
+		char[] Chars = new char[string.length()]; //문자열에 있는 문자(순수문자) 저장할 배열
+		int count = 0; //순수문자의 개수
+		
+		//입력된 문자열 비교해서 순수문자 저장
+		for(int i=0;i<string.length();i++) {
+			char ch = string.charAt(i); //현재 문자열에서 i번째 문자 추출
+			//중복체크
+			int j;
+			for(j=0;j<count;j++) {
+				if(Chars[j]==ch) {//중복
+					break;
+				}
+			}
+			//중복이 아닐 때
+			if(j==count) {
+				Chars[count]=ch; //문자추가
+				count = count+1;
+			}
+		}
+		System.out.println("문자열에 있는 문자 : ");
+			for(int i=0;i<count;i++) {
+				System.out.print(Chars[i]);//문자출력
+				if(i<count-1) {//마지막문자 제외하고 쉼표 넣기
+					System.out.print(",");//쉼표, 공백
+				}
+			}
+			System.out.println();
+			System.out.println("문자 개수 : " + count); //문자열에 있는 문자 출력
+		
+		scanner.close();
+	}
+
+}
