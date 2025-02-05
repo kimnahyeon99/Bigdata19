@@ -1,0 +1,22 @@
+-- 문제 12 : 특정날짜('2005-07-01'~'2005-07-31' 범위에서 각 카테고리의 누적 대여 횟수 계산
+ WITH category_rental as(
+ 	SELECT c.category_id,
+        c.name AS category_name,
+        r.rental_date,
+        ROW_NUMBER() OVER (PARTITION BY c.category_id ORDER BY r.rental_date) AS cumulative_rental
+ 	  FROM category c 
+ 	  JOIN film_category fc on c.category_id = fc.category_id
+ 	  JOIN inventory i on fc.film_id = i.film_id
+ 	  JOIN rental r on i.inventory_id = r.inventory_id
+ 	 WHERE r.rental_date BETWEEN '2005-07-01' AND '2005-07-31'
+ )
+ SELECT category_id, 
+ 		category_name,
+ 		rental_date,
+ 		cumulative_rental
+   FROM category_rental
+  ORDER BY category_id, rental_date;
+
+-- 문제 13 : 가장 많이 대여된 영화 TOP 5의 대여 횟수와 순위
+WITH film_rental as (
+	SELECT f.film_id,
