@@ -1,0 +1,48 @@
+package CollectionPractice.app;
+
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Q1 {
+
+	public static void main(String[] args) {
+		ArrayList<Integer> numbers = new ArrayList<>(); // 정수 저장
+		Scanner scanner = new Scanner(System.in); // 입력받기
+		
+		System.out.println("정수(-1이 입력될 때까지)>>");
+		
+		// -1 입력 전까지 숫자 입력받기
+		while(true) {
+			try {
+				int num = scanner.nextInt(); // 정수 입력
+				if (num == -1) { // -1이면 break
+					break;
+				}
+				if (num > 0) {
+					numbers.add(num); // 양수만 추가
+				}
+			}catch (InputMismatchException e) {//정수로 입력하지 않았을 때의 예외처리
+				System.out.println("잘못입력");
+				scanner.nextLine();
+			}
+		}
+			
+			// ArrayList 크기 확인 후 최대값 구하기
+			if(numbers.size() == 0) { 
+				System.out.println("입력된 양의 정수가 없습니다");
+			}else {
+				int max = numbers.get(0); // 첫번째 값을 최대값으로 선정
+				
+				for(int i=0;i<numbers.size();i++) {
+					int number = numbers.get(i);
+					if (number > max) {
+						max = number; // 더 크면 최대값 바뀜
+					}
+				}
+				System.out.print("가장 큰 수는 " + max);
+			}
+			scanner.close();
+	}
+
+}
