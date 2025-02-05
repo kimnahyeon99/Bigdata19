@@ -1,0 +1,11 @@
+-- 문제 16 : 대여 금액이 가장 높은 고객 TOP 10 계산
+ SELECT c.customer_id,
+ 		CONCAT(c.first_name,' ',c.last_name)as customer_naame,
+ 		SUM(p.amount) as total_amount,
+ 		RANK () over(ORDER by SUM(p.amount)DESC) as rank_num
+   FROM customer c 
+   JOIN rental r on c.customer_id = r.customer_id 
+   JOIN payment p on r.rental_id = p.rental_id 
+  GROUP BY c.customer_id, c.first_name, c.last_name
+  ORDER BY rank_num
+  LIMIT 10;
