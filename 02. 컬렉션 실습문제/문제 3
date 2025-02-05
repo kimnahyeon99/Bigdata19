@@ -1,0 +1,57 @@
+package CollectionPractice.app;
+
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class Q3 {
+
+	public static void main(String[] args) {
+		
+		Scanner scanner = new Scanner(System.in);
+		// 나라 이름과 인구 해시맵에 입력받기
+		HashMap<String,Integer> po =  new HashMap<>();
+		
+		
+		while(true) {
+			System.out.println("나라 이름, 인구 >> ");
+			String input = scanner.nextLine();
+			
+			if(input.equals("그만")) { // 그만이면 break
+				break;
+			}
+			
+			//해시맵에 나라와 인구 저장
+			String[] index = input.split(" "); // 공백을 기준으로 앞은 나라 뒤는 인구
+			if(index.length!=2) {
+				System.out.println("잘못입력");
+				continue;
+			}
+			
+			String country = index[0];
+			try {
+				int population = Integer.parseInt(index[1]); // 문자열을 정수로 변경
+				po.put(country, population);
+			} catch (NumberFormatException e) { //인구를 정수로 입력하지 않았을때의 예외처리
+				System.out.println("잘못입력");
+			}
+		}
+			//인구검색
+			while(true) {
+				System.out.println("인구 검색>>");
+				String scountry = scanner.nextLine();
+				
+				if(scountry.equals("그만")) { //그만이면 break
+					break;
+				}
+				//나라가 있으면 인구 출력, 없으면 없다는거 출력
+				if(po.containsKey(scountry)) { // boolean containsKey(Object key) => key 검색
+					System.out.println(scountry + "의 인구는 " + po.get(scountry));
+				}else {
+					System.out.println(scountry + " 나라는 없습니다.");
+				}
+			}
+			
+		scanner.close();
+	}
+
+}
