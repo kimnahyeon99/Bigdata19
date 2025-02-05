@@ -16,7 +16,3 @@
  		cumulative_rental
    FROM category_rental
   ORDER BY category_id, rental_date;
-
--- 문제 13 : 가장 많이 대여된 영화 TOP 5의 대여 횟수와 순위
-WITH film_rental as (
-	SELECT f.film_id,
