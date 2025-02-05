@@ -1,0 +1,41 @@
+package ArrayPractice;
+
+import java.util.Random;
+
+public class Q12 {
+
+	public static void main(String[] args) {
+		
+		//10개 값 정수 배열 생성
+		int[] intArray = new int[10];
+				
+		//난수 생성
+		Random random = new Random();
+		
+		//배열에 1~10 난수 넣기
+		for(int i=0; i<intArray.length; i++) {
+			intArray[i] = random.nextInt(10) + 1;
+		}
+		//배열 값 출력
+		for(int i=0; i<intArray.length; i++) {
+			System.out.print(intArray[i] + " ");
+		}
+		//최대값 최솟값 구하기
+		int max = 0;
+		int min = 0;
+		
+		for(int i=0; i<intArray.length; i++) {
+			if(max<intArray[i]) {
+				max = intArray[i];
+			}
+			if(min>intArray[i]) {
+				min = intArray[i];
+			}
+		}
+		
+		System.out.println();
+		System.out.println("최대값 : " + max);
+		System.out.println("최소값 : " + min);
+	}
+
+}
