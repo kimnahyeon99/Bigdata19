@@ -1,0 +1,10 @@
+-- 문제 4 : 대여가 가장 많은 직원과 그 순위 계산
+SELECT s.staff_id,
+		CONCAT(s.first_name, ' ', s.last_name) as staff_name,
+		COUNT(r.rental_id) as total_rentals, 
+		RANK() over(ORDER by COUNT(r.rental_id)DESC) as rank_num
+  FROM staff s 
+ INNER JOIN rental r on s.staff_id = r.staff_id 
+ GROUP by s.staff_id, s.first_name, s.last_name 
+ ORDER by rank_num
+ ;
