@@ -1,0 +1,17 @@
+-- 6번 : 특정 카테고리(Action)의 대여 트렌드를 분석하여 월별 대여 횟수 조회
+		-- 대여날짜를 연도-월 형식으로 변환
+SELECT DATE_FORMAT(r.rental_date,'%Y-%m') as month,
+		-- 각 월에 대여된 횟수를 셈
+		COUNT(*) as rental_count
+ FROM rental r
+ INNER JOIN inventory i on r.inventory_id = i.inventory_id
+ INNER JOIN film_category fc on i.film_id = fc.film_id
+WHERE fc.category_id = ( -- category 테이블에서 Action 속한 영화만 선택 // 서브쿼리
+							SELECT category_id
+							  FROM category 
+							  WHERE name = 'Action'
+)-- 월별로 묶기
+ GROUP BY DATE_FORMAT(r.rental_date, '%Y-%m')
+ -- 월 순서대로 정렬
+ ORDER BY month
+;
