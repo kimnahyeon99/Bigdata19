@@ -1,0 +1,18 @@
+-- 5번 : 고객의 대여 횟수와 평균 결제 금액을 기반으로 상위 5명의 VIP 고객을 식별 조회
+SELECT c.customer_id,
+		CONCAT(c.first_name, ' ', c.last_name) as customer_name,
+		-- 고객이 대여한 총 횟수
+		COUNT(r.rental_id) as rental_count,
+		-- 고객의 결제 금액의 평균
+		AVG(p.amount) as avg_payment
+ FROM customer c
+ -- 고객 대여 기록이 있으면 데이터 연결, 대여 기록이 없는 고객은 NULL
+ LEFT JOIN rental r on c.customer_id = r.customer_id
+ -- 대여 기록이 있으면 대여와 연결된 결제 데이터 가져오기, 대여 기록이 없으면 결제 데이터는 NULL
+ LEFT JOIN payment p on r.rental_id = p.rental_id
+-- 고객별로 묶기
+GROUP BY c.customer_id, c.first_name, c.last_name
+-- rental_count(대여횟수)와 avg_payment(지불) 기준으로 내림차순 정렬
+ORDER by rental_count DESC, avg_payment DESC
+LIMIT 5 -- 상위 5명
+;
