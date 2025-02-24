@@ -1,0 +1,33 @@
+package com.example.contactproject.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name="members_and_contacts")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class ContactEntity {
+    @Id
+    @Column(name="contact_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name="contact_name")
+    private String name;
+
+    @Column(name="contact_number")
+    private String phoneNumber;
+
+    @Column(name="contact_address")
+    private String address;
+
+    @Column(name="relationship")
+    private String relationship;
+
+    @Column(name="member_id")
+    private String memberId;
+}
