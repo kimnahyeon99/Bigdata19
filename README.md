@@ -26,7 +26,7 @@
 🔹 **MySQL과 Java를 연동한 연락처 관리 프로그램** 구현  
 🔹 **MVC 디자인 패턴**을 적용하여 **연락처 관리 시스템을 구조화하여 개발**
 
-### 6️⃣ **[MySQL Database, Web을 이용한 연락처 관리 프로그램(MVC 모델)](https://github.com/kimnahyeon99/Bigdata19/tree/main/07.%20%EC%97%B0%EB%9D%BD%EC%B2%98%20%EA%B4%80%EB%A6%AC%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8(DB%2C%20WEB))**
+### 7️⃣ **[MySQL Database, Web을 이용한 연락처 관리 프로그램(MVC 모델)](https://github.com/kimnahyeon99/Bigdata19/tree/main/07.%20%EC%97%B0%EB%9D%BD%EC%B2%98%20%EA%B4%80%EB%A6%AC%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8(DB%2C%20WEB))**
 🔹 **MySQL과 Java(Spring Boot)를 연동한 웹 기반 연락처 관리 프로그램 구현**  
 🔹 **MVC 디자인 패턴 적용 및 회원가입·로그인·연락처 CRUD 기능 제공**
 
