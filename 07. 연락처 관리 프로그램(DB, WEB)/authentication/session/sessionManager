@@ -1,0 +1,30 @@
+package com.example.contactproject.authentication.session;
+
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
+
+@Component
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class SessionManager {
+
+    @Autowired
+    private HttpSession session;
+
+    public String getCurrentMemberId() {
+        return (String) this.session.getAttribute("user");
+    }
+
+    public void createSession(String memberId) {
+        this.session.setAttribute("user", memberId);
+        this.session.setMaxInactiveInterval(3600);
+    }
+
+    public void invalidateSession() {
+        this.session.invalidate();
+    }
+}
+
