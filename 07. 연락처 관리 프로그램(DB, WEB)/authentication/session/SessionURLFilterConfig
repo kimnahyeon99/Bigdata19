@@ -1,0 +1,17 @@
+package com.example.contactproject.authentication.session;
+
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SessionURLFilterConfig {
+    @Bean
+    public FilterRegistrationBean<SessionURLFilter> sessionFilter() {
+        FilterRegistrationBean<SessionURLFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new SessionURLFilter());
+        registrationBean.addUrlPatterns("/*");
+        return registrationBean;
+    }
+}
+
