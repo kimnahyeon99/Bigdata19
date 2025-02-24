@@ -1,0 +1,170 @@
+package com.example.contactproject.controller;
+
+import com.example.contactproject.authentication.AuthenticationService;
+import com.example.contactproject.authentication.session.SessionManager;
+import com.example.contactproject.dto.ContactDTO;
+import com.example.contactproject.entity.ContactEntity;
+import com.example.contactproject.repository.ContactRepository;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.ArrayList;
+
+@Controller
+public class ContactController {
+    @Autowired
+    private ContactRepository contactRepository;
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
+    @Autowired
+    private SessionManager sessionManager;
+
+    private ContactDTO attemptedInsertInfo = null;
+
+    // 연락처 입력 페이지
+    @GetMapping("/contacts/add")
+    public String addContactPage(Model model) {
+        model.addAttribute("pageTitle", "연락처 추가");
+        model.addAttribute("userID", this.sessionManager.getCurrentMemberId());
+
+        if (this.attemptedInsertInfo != null) {
+            model.addAttribute("contact", this.attemptedInsertInfo);
+            this.attemptedInsertInfo = null;
+        }
+        return "contacts/insert";
+    }
+
+    // 연락처 입력 처리
+    @PostMapping("/contacts/add")
+    public String addContact(RedirectAttributes attributes, ContactDTO dto) {
+        int relationship;
+        switch (dto.getRelationship()) {
+            case "가족":
+                relationship = 1;
+                break;
+            case "친구":
+                relationship = 2;
+                break;
+            case "기타":
+                relationship = 3;
+                break;
+            default:
+                this.attemptedInsertInfo = dto;
+                attributes.addFlashAttribute("msg", "관계는 가족, 친구, 기타 중 하나야합니다");
+                return "redirect:/contacts/add";
+        }
+        // 연락처 태이블에 연락처 추가
+        this.contactRepository.insertContact(dto.getName(),
+                dto.getPhoneNumber(),
+                dto.getAddress(),
+                relationship);
+        this.contactRepository.insertMemberContact(this.sessionManager.getCurrentMemberId(),
+                this.contactRepository.getLastInsertedId());
+        attributes.addFlashAttribute("msg", dto.getName() + " 입력 성공");
+        return "redirect:/contacts";
+    }
+
+    // 모든 연락처 페이지
+    @GetMapping("/contacts")
+    public String viewContacts(Model model) {
+        String currentMemberId = this.sessionManager.getCurrentMemberId();
+        model.addAttribute("pageTitle", "연락처");
+        model.addAttribute("userID", currentMemberId);
+        model.addAttribute("contacts", this.contactRepository.getAllContacts(currentMemberId));
+        return "contacts/contacts";
+    }
+
+    // 사용자가 검색한 연락처들을 보여주는 패이지
+    @GetMapping("/contacts/{name}/search")
+    public String viewContactsWithName(Model model, @PathVariable String name) {
+        String currentMemberId = this.sessionManager.getCurrentMemberId();
+
+        model.addAttribute("pageTitle", "연락처");
+        model.addAttribute("userID", currentMemberId);
+        model.addAttribute("contacts", this.contactRepository.getContactsWithName(this.sessionManager.getCurrentMemberId(), name));
+        return "contacts/contacts";
+    }
+
+    // 연락처 검색
+    @PostMapping("/contacts/search")
+    public String searchContacts(@RequestParam("contact-to-search") String name) {
+        return "redirect:/contacts/" + name + "/search";
+    }
+
+    @GetMapping("/contacts/search")
+    public String searchPage(Model model) {
+        model.addAttribute("userID", this.sessionManager.getCurrentMemberId());
+        model.addAttribute("contacts", new ArrayList<>());
+        return "contacts/contacts_search"; // 또는 "contacts_search"
+    }
+
+
+    // 연락처 수정 패이지
+    @GetMapping("/contacts/{id}/edit")
+    public String editContactPage(Model model, RedirectAttributes attributes, @PathVariable int id) {
+        ContactEntity contact = this.contactRepository.getContact(this.sessionManager.getCurrentMemberId(), id);
+        if (contact != null) {
+            model.addAttribute("pageTitle", contact.getName() + " 수정");
+            model.addAttribute("contact", contact);
+        } else {
+            attributes.addFlashAttribute("msg", "고객님의 연락처만 보세요");
+            return "redirect:/contacts";
+        }
+        return "contacts/update";
+    }
+
+    // 연락처 수정
+    @PostMapping("/contacts/{id}/edit")
+    public String editContact(RedirectAttributes attributes, @PathVariable int id, ContactDTO dto) {
+        int relationship;
+        if (this.contactRepository.getContact(this.sessionManager.getCurrentMemberId(), id) != null) {
+            switch (dto.getRelationship()) {
+                case "가족":
+                    relationship = 1;
+                    break;
+                case "친구":
+                    relationship = 2;
+                    break;
+                case "기타":
+                    relationship = 3;
+                    break;
+                default:
+                    attributes.addFlashAttribute("msg", "관계는 가족, 친구, 기타 중 하나야합니다");
+                    return "redirect:/contacts/" + id + "/edit";
+            }
+            this.contactRepository.updateContact(dto.getId(),
+                    dto.getName(),
+                    dto.getPhoneNumber(),
+                    dto.getAddress(),
+                    relationship);
+            return "redirect:/contacts";
+        }
+        attributes.addFlashAttribute("msg", "고객님의 연락처만 보세요");
+        return "redirect:/contacts";
+    }
+
+    // 연락처 삭제
+    @PostMapping("/contacts/{id}/delete")
+    public String deleteContact(RedirectAttributes attributes, @PathVariable int id) {
+        String memberId = this.sessionManager.getCurrentMemberId();
+        if (this.contactRepository.getContact(memberId, id) != null) {
+            this.contactRepository.deleteMemberContact(memberId, id);
+            this.contactRepository.deleteContact(id);
+            attributes.addFlashAttribute("msg", "삭제 성공");
+        } else {
+            attributes.addFlashAttribute("msg", "고객님의 연락처만 보세요");
+        }
+        return "redirect:/contacts";
+    }
+
+
+}
