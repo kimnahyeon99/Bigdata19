@@ -1,0 +1,32 @@
+package com.example.contactproject.authentication;
+
+import com.example.contactproject.dto.MemberDTO;
+import com.example.contactproject.entity.MemberEntity;
+import com.example.contactproject.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class AuthenticationService {
+    @Autowired
+    private MemberRepository memberRepository;
+
+    // 로그인
+    public boolean authenticate(MemberDTO dto) {
+        Optional<MemberEntity> member = this.memberRepository.findById(dto.getId());
+        return member.isPresent() && member.get().getPassword().equals(dto.getPassword());
+    }
+
+    // 회원가입
+    public void signUp(MemberDTO dto) {
+        this.memberRepository.save(dto.toEntity());
+    }
+
+    // 받은 ID가 이미 DB에 있는지 확인
+    public boolean isDuplicateId(String id) {
+        return this.memberRepository.findById(id).isPresent();
+    }
+}
+
