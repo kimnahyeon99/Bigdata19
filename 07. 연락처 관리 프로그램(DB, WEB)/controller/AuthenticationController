@@ -1,0 +1,62 @@
+package com.example.contactproject.controller;
+
+import com.example.contactproject.authentication.AuthenticationService;
+import com.example.contactproject.authentication.session.SessionManager;
+import com.example.contactproject.dto.MemberDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+@Controller
+public class AuthenticationController {
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
+    @Autowired
+    private SessionManager sessionManager;
+
+    // 로그인 페이지
+    @GetMapping("/login")
+    public String loginPage() {
+        return "authentication/login";
+    }
+
+    // 로그인 처리
+    @PostMapping("/login")
+    String login(MemberDTO dto, RedirectAttributes attributes) {
+        if (this.authenticationService.authenticate(dto)) {
+            this.sessionManager.createSession(dto.getId());
+            return "redirect:/contacts";
+        }
+        attributes.addFlashAttribute("msg", "누구세요");
+        return "redirect:/login";
+    }
+
+    // 회원가입 페이지
+    @GetMapping("/signup")
+    public String signUpPage() {
+        return "authentication/signup";
+    }
+
+    // 회원가입 처리
+    @PostMapping("/signup")
+    public String singUp(MemberDTO dto, RedirectAttributes attributes) {
+        if (this.authenticationService.isDuplicateId(dto.getId())) {
+            attributes.addFlashAttribute("msg", "중복된 ID 입니다");
+            return "redirect:/signup";
+        }
+        this.authenticationService.signUp(dto);
+        attributes.addFlashAttribute("msg", "회원가입 성공");
+        return "redirect:/login";
+    }
+
+    // 로그아웃
+    @PostMapping("/logout")
+    public String logout() {
+        this.sessionManager.invalidateSession();
+        return "redirect:/login";
+    }
+}
