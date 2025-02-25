@@ -1,0 +1,48 @@
+package DB_contact;
+
+import ContactProgram.lib.Contact_inter;
+
+// 데이터 관리
+
+// (DB 작업은 ContactDAO를 통해 이루어지고 ContactService는 단순하게 이를 호출하는 역할)
+
+public class ContactService { // DB에 어떤 작업을 해야하는지 결정 함.
+
+public ContactService() {
+
+}
+
+// DB 구조가 변경되어도 ContactDAO만 수정하면 됨. (Service와 Controller는 수정할 필요없음)
+
+//Controller에서 addMember 메소드를 호출해서 ContactDAO에 객체 전달
+
+// 전달받은 ContactDAO의 addMember 메소드를 호출해서 회원 추가를 함
+
+public void addMember(Contact_inter contactDAO) {
+
+contactDAO.addMember();
+
+}
+
+
+public void showMember(Contact_inter contactDAO) {
+
+contactDAO.showMember();
+
+}
+
+
+public void editMember(Contact_inter contactDAO) {
+
+contactDAO.editMember();
+
+}
+
+
+public void deleteMember(Contact_inter contactDAO) {
+
+contactDAO.deleteMember();
+
+}
+
+}
