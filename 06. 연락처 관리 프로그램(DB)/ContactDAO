@@ -1,0 +1,730 @@
+package DB_contact;
+
+
+import java.sql.Connection;
+
+import java.sql.DriverManager;
+
+import java.sql.PreparedStatement;
+
+import java.sql.ResultSet;
+
+import java.sql.SQLException;
+
+import java.util.ArrayList;
+
+import java.util.InputMismatchException;
+
+import java.util.NoSuchElementException;
+
+import java.util.Scanner;
+
+
+import ContactProgram.lib.Contact_inter;
+
+// 데이터베이스 작업
+
+public class ContactDAO implements Contact_inter {
+
+
+private static final String URL = "jdbc:mysql://localhost:3306/contactprogram";
+
+private static final String ID = "root";
+
+private static final String PW = "doitmysql";
+
+public Scanner scanner = null;
+
+
+private Contactview view;
+
+
+public ContactDAO(Contactview view, Scanner scanner) { // DB와 직접 상호작용 함.
+
+    this.view = view;
+
+    this.scanner = scanner;
+
+}
+
+
+// DB 연결 메소드
+
+private Connection getConnection() {
+
+try {
+
+return DriverManager.getConnection(URL,ID,PW);
+
+}catch(SQLException e) {
+
+System.out.println("데이터베이스 연결 실패");
+
+e.printStackTrace();
+
+return null;
+
+}
+
+}
+
+
+// 회원추가
+
+@Override
+
+public void addMember() {
+
+
+String sql = "Insert INTO contact(contact_name, contact_phone, contact_address, type_id)"
+
++ "VALUES (?,?,?,?) ";
+
+
+String check = "SELECT COUNT(*) "
+
++ "   FROM contact "
+
++ " WHERE contact_phone=? ";
+
+
+try {
+
+Connection con = getConnection(); // DB에 연결
+
+PreparedStatement pstmt = con.prepareStatement(sql);
+
+PreparedStatement checkstmt = con.prepareStatement(check);
+
+// Scanner scanner = new Scanner(System.in);
+
+
+if(con == null) return; // DB연결 실패하면 종료
+
+
+System.out.print("이름 : ");
+
+String name = scanner.nextLine();
+
+
+String phoneNumber;
+
+while(true) {
+
+System.out.print("전화번호 : ");
+
+phoneNumber = scanner.nextLine();
+
+if(phoneNumber.length() == 11) { // 입력받은 전화번호가 11자리인지 확인
+
+try {
+
+Integer.parseInt(phoneNumber);
+
+checkstmt.setString(1, phoneNumber); // DB에 동일한 전화번호가 있는지 확인
+
+ResultSet rs = checkstmt.executeQuery();
+
+rs.next();
+
+if(rs.getInt(1)>0) { // 이미 등록된 번호이므로 다시 입력받게 하기
+
+System.out.println("이미 등록된 전화번호입니다.");
+
+continue;
+
+}
+
+break; // 전화번호가 11자리, 숫자, 중복아니면 반복문 종료
+
+}catch (NumberFormatException e) {
+
+System.out.println("숫자를 입력하세요.");
+
+}
+
+}else {
+
+System.out.println("전화번호는 11자리여야 합니다.");
+
+}
+
+}
+
+
+System.out.print("주소 : ");
+
+String address = scanner.nextLine();
+
+
+int typeId;
+
+while(true) {
+
+System.out.print("구분(1=가족,2=친구,3=기타) : ");
+
+if(scanner.hasNextInt()) {
+
+typeId = scanner.nextInt();
+
+scanner.nextLine();
+
+if(typeId >= 1 && typeId <= 3) { // 입력한 값이 1,2,3 중 하나인지 확인
+
+break;
+
+}
+
+}else {
+
+scanner.nextLine();
+
+}
+
+System.out.println("1,2,3 중 하나를 입력하세요.");
+
+}
+
+// 사용자 입력 값을 SQL에 넣기
+
+pstmt.setString(1, name);
+
+pstmt.setString(2, phoneNumber);
+
+pstmt.setString(3, address);
+
+pstmt.setInt(4, typeId);
+
+
+int result = pstmt.executeUpdate(); // SQL 실행, DB에 저장
+
+System.out.println(result + "개의 회원이 추가되었습니다.");
+
+
+}catch(SQLException e) {
+
+e.printStackTrace();
+
+}
+
+
+}
+
+
+// 회원목록보기
+
+@Override
+
+public void showMember() {
+
+
+String sql = "SELECT c.contact_id, "
+
++ " c.contact_name, "
+
++ " c.contact_phone, "
+
++ " c.contact_address, "
+
++ " c.type_id, "
+
++ " ct.type_name " 
+
++ " FROM contact c " 
+
++ " JOIN contact_type ct "
+
++ "   ON c.type_id = ct.type_id ";
+
+
+
+try(Connection con = getConnection(); // DB 연결
+
+PreparedStatement pstmt = con.prepareStatement(sql);
+
+ResultSet rs = pstmt.executeQuery()){
+
+
+// 데이터를 ContactDTO 객체로 변환해서 ArrayList(members)에 저장
+
+ArrayList<ContactDTO> members = new ArrayList<>();
+
+
+while(rs.next()) {
+
+ContactDTO member = new ContactDTO(
+
+rs.getInt("contact_id"),
+
+rs.getString("contact_name"),
+
+rs.getString("contact_phone"),
+
+rs.getString("contact_address"),
+
+0, // type_id는 따로 사용 안함
+
+rs.getString("type_name")
+
+);
+
+members.add(member);
+
+}
+
+// members 리스트를 받아서 모든 연락처 출력, ContactView 클래스 메소드 호출
+
+view.showAllMembers(members); 
+
+
+}catch (SQLException e) {
+
+e.printStackTrace();
+
+}
+
+}
+
+
+// 회원정보수정
+
+@Override
+
+public void editMember() {
+
+// 이름으로 회원 검색
+
+String findSql = "SELECT c.contact_id, "
+
++ " c.contact_name, "
+
++ " c.contact_phone, "
+
++ " c.contact_address, "
+
++ " c.type_id, "
+
++ " ct.type_name " 
+
+    + " FROM contact c "
+
++ " JOIN contact_type ct "
+
+    + "   ON c.type_id = ct.type_id "
+
+    + "WHERE c.contact_name = ? ";
+
+    
+
+String updateSql = "UPDATE contact "
+
+    + "    SET contact_name = ?,  "
+
+    + " contact_phone = ?, "
+
+    + " contact_address = ?, "
+
+    + " type_id = ? "
+
+    + "  WHERE contact_id = ? ";
+
+
+try (Connection con = getConnection()) {
+
+
+if(con == null) return;
+
+
+System.out.print("수정할 회원의 이름을 입력하세요 : ");
+
+String editName = scanner.nextLine();
+
+
+try(PreparedStatement findPstmt = con.prepareStatement(findSql)){
+
+findPstmt.setString(1, editName);
+
+ResultSet rs = findPstmt.executeQuery();
+
+
+ArrayList<ContactDTO> matches = new ArrayList<>();
+
+while(rs.next()) {
+
+matches.add(new ContactDTO(
+
+rs.getInt("contact_id"),
+
+rs.getString("contact_name"),
+
+rs.getString("contact_phone"),
+
+rs.getString("contact_address"),
+
+rs.getInt("type_id"),
+
+rs.getString("type_name")
+
+));
+
+}
+
+
+if (matches.isEmpty()) { // 검색 결과 비어있으면
+
+            System.out.println("해당 이름의 회원이 없습니다.");
+
+            return;
+
+        }
+
+
+System.out.println("검색된 회원 목록");
+
+        for (int i = 0; i < matches.size(); i++) {
+
+            System.out.println((i + 1) + ". " + matches.get(i).toString());
+
+        }
+
+        
+
+        System.out.print("수정할 회원의 번호를 선택하세요 : ");
+
+        int choice;
+
+            while (!scanner.hasNextInt()) {
+
+                System.out.println("잘못된 입력입니다. 숫자를 입력하세요.");
+
+                scanner.next();
+
+            }
+
+            choice = Integer.parseInt(scanner.nextLine());
+
+        
+
+        if (choice < 1 || choice > matches.size()) {
+
+            System.out.println("잘못입력");
+
+            return;
+
+        }
+
+        
+
+        ContactDTO selectedContact = matches.get(choice - 1);
+
+        
+
+        System.out.print("새 이름 : ");
+
+        String newName = scanner.nextLine();
+
+        
+
+      String newPhone;
+
+      while(true) {
+
+      System.out.print("새 전화번호 : ");
+
+      newPhone = scanner.nextLine();
+
+       
+
+      if(newPhone.length() == 11) {
+
+      try {
+
+      Integer.parseInt(newPhone);
+
+      String check = "SELECT COUNT(*) "
+
+    + "  FROM contact "
+
+    + " WHERE contact_phone=? "
+
+    + "   AND contact_id!=? ";
+
+      try(
+
+      PreparedStatement checkstmt = con.prepareStatement(check)){
+
+      checkstmt.setString(1, newPhone);
+
+      checkstmt.setInt(2, selectedContact.getContact_id());
+
+      ResultSet checkRs = checkstmt.executeQuery();
+
+      checkRs.next();
+
+      if(checkRs.getInt(1)>0) {
+
+      System.out.println("이미 등록된 전화번호입니다.");
+
+      continue;
+
+      }
+
+      }
+
+      break;
+
+      }catch(NumberFormatException e) {
+
+      System.out.println("숫자를 입력하세요.");
+
+      }
+
+      }else {
+
+      System.out.println("전화번호는 11자리여야 합니다.");
+
+      }
+
+       
+
+      }
+
+
+        System.out.print("새 주소 : ");
+
+        String newAddress = scanner.nextLine();
+
+        
+
+        int newTypeId;
+
+        while(true) {
+
+        System.out.print("새 구분(1=가족,2=친구,3=기타) : ");
+
+        if(scanner.hasNextInt()) {
+
+        newTypeId = scanner.nextInt();
+
+        scanner.nextLine();
+
+        if(newTypeId >= 1 && newTypeId <= 3) {
+
+        break;
+
+        }
+
+        }else {
+
+        scanner.nextLine();
+
+        }
+
+        System.out.println("1,2,3 중 하나를 입력하세요.");
+
+        }
+
+        // 새 데이터로 회원정보 수정하기
+
+        try (PreparedStatement updatePstmt = con.prepareStatement(updateSql)) {
+
+            updatePstmt.setString(1, newName);
+
+            updatePstmt.setString(2, newPhone);
+
+            updatePstmt.setString(3, newAddress);
+
+            updatePstmt.setInt(4, newTypeId);
+
+            updatePstmt.setInt(5, selectedContact.getContact_id());
+
+
+            int result = updatePstmt.executeUpdate();
+
+            System.out.println(result + "개의 회원 정보가 수정되었습니다.");
+
+        }
+
+}
+
+} catch (SQLException e) {
+
+e.printStackTrace();
+
+} catch (NoSuchElementException e) {
+
+e.printStackTrace();
+
+}
+
+}
+
+
+// 회원삭제
+
+@Override
+
+public void deleteMember() {
+
+        
+
+String findSql = "SELECT c.contact_id, "
+
++ " c.contact_name, "
+
++ " c.contact_phone, "
+
++ " c.contact_address, "
+
++ " c.type_id, "
+
++ " ct.type_name " 
+
++ " FROM contact c "
+
++ " JOIN contact_type ct "
+
++ "   ON c.type_id = ct.type_id "
+
++ "WHERE c.contact_name = ? ";
+
+        // contact_id 기준으로 삭제
+
+        String deleteSql = "DELETE FROM contact "
+
+         + "   WHERE contact_id = ? ";
+
+
+        try (Connection con = getConnection()) {
+
+        
+
+         if(con == null) return;
+
+        
+
+         System.out.println("삭제할 회원의 이름을 입력하세요 : ");
+
+         String deleteName = scanner.nextLine();
+
+        
+
+         if (deleteName == null || deleteName.isEmpty()) {
+
+                System.out.println("이름을 입력하지 않았습니다.");
+
+                return;
+
+            }
+
+        
+
+         try(PreparedStatement findPstmt = con.prepareStatement(findSql)) {
+
+         findPstmt.setString(1, deleteName);
+
+         ResultSet rs = findPstmt.executeQuery();
+
+        
+
+         ArrayList<ContactDTO> matches = new ArrayList<>();
+
+         while(rs.next()) {
+
+         matches.add(new ContactDTO(
+
+         rs.getInt("contact_id"),
+
+         rs.getString("contact_name"),
+
+         rs.getString("contact_phone"),
+
+         rs.getString("contact_address"),
+
+         rs.getInt("type_id"),
+
+         rs.getString("type_name")
+
+         ));
+
+         }
+
+
+            if (matches.isEmpty()) {
+
+                System.out.println("해당 이름의 회원이 없습니다.");
+
+                return;
+
+            }
+
+
+            System.out.println("검색된 회원 목록");
+
+            for (int i = 0; i < matches.size(); i++) {
+
+                System.out.println((i + 1) + ". " + matches.get(i).toString());
+
+            }
+
+
+            System.out.print("삭제할 회원의 번호를 선택하세요 : ");
+
+            int choice;
+
+            while (!scanner.hasNextInt()) {
+
+                System.out.println("잘못된 입력입니다. 숫자를 입력하세요.");
+
+                scanner.next(); // 잘못된 입력 제거
+
+            }
+
+            
+
+            choice = Integer.parseInt(scanner.nextLine());
+
+            
+
+            
+
+            if (choice < 1 || choice > matches.size()) {
+
+                System.out.println("잘못입력");
+
+                return;
+
+            }
+
+            
+
+            ContactDTO selected = matches.get(choice - 1);
+
+
+            try (PreparedStatement deletePstmt = con.prepareStatement(deleteSql)) {
+
+                deletePstmt.setInt(1, selected.getContact_id());
+
+                int result = deletePstmt.executeUpdate();
+
+                System.out.println(result + "개의 회원이 삭제되었습니다.");
+
+            }
+
+        }
+
+
+        }catch (SQLException e) {
+
+            e.printStackTrace();
+
+        }catch (NoSuchElementException e) {
+
+         e.printStackTrace();
+
+        }
+
+}
+
+}
+
