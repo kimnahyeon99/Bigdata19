@@ -1,0 +1,86 @@
+package DB_contact;
+
+
+import java.util.ArrayList;
+
+import java.util.NoSuchElementException;
+
+import java.util.Scanner;
+
+
+public class Contactview {
+
+private Scanner scanner;
+
+
+public Contactview(Scanner scanner) {
+
+this.scanner = scanner;
+
+}
+
+// 메뉴 출력
+
+public int showMenu() {
+
+System.out.println("----[메뉴]----");
+
+System.out.println("1.  회원추가  ");
+
+System.out.println("2. 회원목록보기");
+
+System.out.println("3. 회원정보수정");
+
+System.out.println("4.  회원삭제  ");
+
+System.out.println("5.   종료  ");
+
+System.out.println("-------------");
+
+System.out.print("선택: ");
+
+
+// 사용자 입력을 문자열로 읽어서 정수로 반환 후 input에 저장
+
+int input = Integer.parseInt(scanner.nextLine());
+
+if (input < 1 || input > 5) {
+
+System.out.println("1에서 5 사이의 숫자를 입력하세요.");
+
+}else {
+
+
+return input; 
+
+}
+
+
+return input;
+
+}
+
+// DB에서 가져온 회원 목록을 출력
+
+public void showAllMembers(ArrayList<ContactDTO> members) {
+
+if (members.isEmpty()) {
+
+System.out.println("회원 목록이 비어 있습니다.");
+
+} else {
+
+System.out.println("전체 회원 목록");
+
+for (int i=0; i<members.size();i++) {
+
+System.out.println((i+1)+ ". " + members.get(i).toString());
+
+}
+
+}
+
+}
+
+
+}
