@@ -1,0 +1,27 @@
+package ContactProgram.lib;
+
+
+import java.util.ArrayList;
+
+import java.util.Scanner;
+
+
+import DB_contact.ContactDTO;
+
+
+public interface Contact_inter {
+
+
+public void addMember();
+
+
+public void showMember();
+
+
+public void editMember();
+
+
+public void deleteMember();
+
+
+}
