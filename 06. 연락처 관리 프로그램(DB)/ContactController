@@ -1,0 +1,91 @@
+package DB_contact;
+
+
+import java.util.Scanner;
+
+
+import ContactProgram.lib.Contact_inter;
+
+
+public class ContactController { // 전체적으로 제어
+
+private Contactview contactview;
+
+private ContactService contactService;
+
+public Scanner scanner= null;
+
+private Contact_inter contactInterface;
+
+
+public ContactController() {
+
+scanner = new Scanner(System.in);
+
+this.contactview = new Contactview(scanner);
+
+this.contactService = new ContactService();
+
+this.contactInterface = new ContactDAO(contactview, scanner);
+
+}
+
+
+public void start() {
+
+
+    while (true) {
+
+            int choice = contactview.showMenu();
+
+            switch (choice) {
+
+                case 1:
+
+                // contactService의 addMember 메소드 호출
+
+                // contactInterface를 ContactDAO로 형변환해해서 전달
+
+                // ContactDAO를 통해 DB에 회원정보를 추가
+
+                    contactService.addMember((ContactDAO)contactInterface);
+
+                    break;
+
+                case 2:
+
+                    contactService.showMember((ContactDAO)contactInterface);
+
+                    break;
+
+                case 3:
+
+                    contactService.editMember((ContactDAO)contactInterface);
+
+                    break;
+
+                case 4:
+
+                    contactService.deleteMember((ContactDAO)contactInterface);
+
+                    break;
+
+                case 5:
+
+                    System.out.println("종료되었습니다.");
+
+                    return;
+
+                default:
+
+                    System.out.println("잘못입력");
+
+                    break;
+
+            }
+
+    }
+
+}
+
+}
