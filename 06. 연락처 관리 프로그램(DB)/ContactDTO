@@ -1,0 +1,117 @@
+package DB_contact;
+
+public class ContactDTO {
+
+   private int contact_id;
+
+   private String contact_name;
+
+   private String contact_phone;
+
+   private String contact_address;
+
+   private int type_id;
+
+   private String type_name;
+
+   public ContactDTO(int contact_id, String contact_name, String contact_phone, String contact_address, int type_id, String type_name) {
+
+       this.contact_id = contact_id;
+
+       this.contact_name = contact_name;
+
+       this.contact_phone = contact_phone;
+
+       this.contact_address = contact_address;
+
+       this.type_id = type_id;
+
+       this.type_name = type_name;
+
+   }
+
+   public int getContact_id() {
+
+       return contact_id;
+
+   }
+
+   public void setContact_id(int contact_id) {
+
+       this.contact_id = contact_id;
+
+   }
+
+   public String getContact_name() {
+
+       return contact_name;
+
+   }
+
+   public void setContact_name(String contact_name) {
+
+       this.contact_name = contact_name;
+
+   }
+
+   public String getContact_phone() {
+
+       return contact_phone;
+
+   }
+
+  
+
+   public void setContact_phone(String contact_phone) {
+
+       this.contact_phone = contact_phone;
+
+   }
+
+   public String getContact_address() {
+
+       return contact_address;
+
+   }
+
+   public void setContact_address(String contact_address) {
+
+       this.contact_address = contact_address;
+
+   }
+
+   public int getType_id() {
+
+       return type_id;
+
+   }
+
+   public void setType_id(int type_id) {
+
+       this.type_id = type_id;
+
+   }
+
+   public String getType_name() {
+
+       return type_name;
+
+   }
+
+   public void setType_name(String type_name) {
+
+       this.type_name = type_name;
+
+   }
+
+   @Override
+
+   public String toString() {
+
+       return "이름 = " + contact_name + ", 전화번호 = " + contact_phone +
+
+              ", 주소 = " + contact_address + ", 구분 = " + type_name;
+
+   }
+
+}
