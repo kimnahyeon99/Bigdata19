@@ -1,0 +1,15 @@
+package ContactProgram.lib;
+
+public interface Contact_inter {
+		
+		public void addMember();
+		
+		public void showMember();
+		
+		public void editMember();
+		
+		public void deleteMember();
+	
+}
+
+
