@@ -1,0 +1,254 @@
+package ContactProgram.lib;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Scanner;
+
+public class ContactService_Imple {
+		private Scanner scanner = new Scanner(System.in);
+		private HashMap<String, Contact> phoneToContactMap = new HashMap<>(); 
+		private String filePath = "/Users/kimnahyeon/contactprogram/contacts3.bin";
+		
+		
+	    // 파일 읽어오기
+		public void readFile() {
+			 try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+		            System.out.println("파일을 읽어왔습니다.");
+		            HashMap<String, Contact> readMap = (HashMap<String, Contact>) ois.readObject();
+		            for (String key : readMap.keySet()) {
+		                Contact value = readMap.get(key);
+		                phoneToContactMap.put(key, value);
+		            }
+		            System.out.println(readMap.size() + "개의 목록을 불러왔습니다.");
+		        } catch (FileNotFoundException e) {
+		            System.out.println("저장된 파일이 없습니다.");
+		        } catch (IOException e) {
+		            System.out.println("오류발생 : " + e.getMessage());
+		        } catch (ClassNotFoundException e) {
+		            System.out.println("오류발생 : " + e.getMessage());
+		        }
+			 
+		}
+		
+		// 파일 저장하기
+		public void saveFile() {
+		    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+		        oos.writeObject(phoneToContactMap);
+		        System.out.println("파일에 저장되었습니다.");
+		    } catch (IOException e) {
+		        System.out.println("파일 저장 중 오류 발생: " + e.getMessage());
+		    }
+		}
+		
+		// 메뉴 출력
+		public void opening(){
+			System.out.println("----[메뉴]----");
+			System.out.println("1.  회원추가  ");
+			System.out.println("2. 회원목록보기");
+			System.out.println("3. 회원정보수정");
+			System.out.println("4.  회원삭제  ");
+			System.out.println("5.   종료  ");
+			System.out.println("-------------");
+		}
+		
+		// case 1 : 회원추가
+		public void addMember(){
+			// 이름 추가
+			System.out.print("이름 : ");
+			String name = scanner.nextLine();
+			
+			// 전화번호추가
+			String phoneNumber;
+			while(true) {
+				System.out.print("전화번호(ex.01012345678) : ");
+				phoneNumber = scanner.nextLine();
+				
+				// 전화번호 예외처리
+				if(phoneNumber.length() != 11) { // 전화번호 개수 11개인지 확인
+					System.out.println("잘못입력");
+					continue;
+				}
+				
+				for(char c : phoneNumber.toCharArray()) { // 전화번호 숫자인지 확인
+					if(c < '0' || c > '9') { // 문자로서의 '0' ~ '9'
+						System.out.println("잘못입력");
+						continue;
+					}
+				}
+				if(phoneToContactMap.containsKey(phoneNumber)) { // 중복체크
+					System.out.println("이미 등록된 전화번호입니다.");
+					continue;
+				}
+				break;
+			}
+			
+			// 주소 추가
+			System.out.print("주소 : ");
+			String address = scanner.nextLine();
+			
+			// 구분 추가
+			System.out.print("구분(가족,친구,기타 중 선택) : ");
+			String type = scanner.nextLine();
+			
+			// 구분 예외처리
+			while(!type.equals("가족") && !type.equals("친구") && !type.equals("기타")) {
+				System.out.println("잘못입력");
+				System.out.println("구분(가족,친구,기타 중 선택) : ");
+				type = scanner.nextLine();
+				
+			}
+			// 새 연락처 newContact에 넣기
+			Contact newContact = new Contact(name, phoneNumber, address, type);
+			phoneToContactMap.put(phoneNumber, newContact);
+			System.out.println("회원이 추가되었습니다.");
+		}
+		
+		// case 2 : 회원목록보기
+		public void showMember() {
+		// = System.out.printf("총 %d명의 회원이 저장되어있습니다. \n", phoneToContactMap.size());
+		System.out.println("총 " + phoneToContactMap.size() + "명의 회원이 저장되어있습니다.");
+			int count = 1; // 회원 목록 출력할 때의 번호
+			for (Contact contact : phoneToContactMap.values()) {
+			// = System.out.printf("%d. %s \n", count++, contact); // %d = 현재번호
+	        System.out.println(contact);
+			}
+		}
+		
+		// case 3 : 회원정보수정하기
+		public void editMember() { // 수정할 회원 이름 입력 후
+			System.out.print("수정할 회원의 이름을 입력하세요 : ");
+		    String searchName = scanner.nextLine();
+		    List<Contact> matches = new ArrayList<>(); 
+		    for (Contact contact : phoneToContactMap.values()) { // 해시맵에서 같은 이름 확인 후
+		        if (contact.getName().equals(searchName)) {
+		            matches.add(contact); // matches 리스트에 추가
+		        }
+		    }
+		    // 같은 이름가진 회원이 없으면
+		    if (matches.isEmpty()) {
+		        System.out.println("해당하는 회원정보가 없습니다.");
+		        return;
+		    }
+		    // 동명이인일 경우 
+		    System.out.println("총 " + matches.size() + "개의 목록이 검색되었습니다.");
+		    for (int i = 0; i < matches.size(); i++) {
+		        System.out.println((i + 1) + ". " + matches.get(i));
+		    }
+		    // 수정할 회원 선택 ,예외처리
+		    int editChoice = -1;
+		    while(true) {
+		    	try { 
+		    		System.out.print("선택 : ");
+		    		editChoice = Integer.parseInt(scanner.nextLine());
+		    		if (editChoice < 1 || editChoice > matches.size()) { // 목록에 없는 숫자를 입력했을때
+			        System.out.println("잘못입력");
+			        continue;
+			    }
+		    		break;
+		    	}catch(NumberFormatException e) {
+		    		System.out.println("잘못입력"); // 문자를 입력했을때 예외처리
+		    	}
+		    }
+		    // 새 정보 추가
+		    Contact contactToEdit = matches.get(editChoice - 1); // contactToEdit에 입력가 선택한 회원을 저장
+		    System.out.print("새 이름 : ");
+		    String newName = scanner.nextLine();
+		
+		    System.out.print("새 전화번호 : ");
+		    String newPhoneNumber = scanner.nextLine();
+		    // 전화번호 예외처리 (회원추가와 다른 방법)
+		    String phoneNumber;
+		    while(true) {
+				try {
+					Integer.parseInt(newPhoneNumber);
+					if(newPhoneNumber.length() != 11) {
+						System.out.println("잘못입력");
+						System.out.println("전화번호(ex.01012345678) : ");
+						newPhoneNumber = scanner.nextLine();
+						continue; // 길이 안맞으면 다시 입력받음
+					}
+					break;
+				}catch (NumberFormatException e) {
+					System.out.println("잘못입력");
+					System.out.println("전화번호(ex.01012345678) : ");
+					phoneNumber = scanner.nextLine();
+				}
+			}
+		    // 전화번호 중복 예외 
+		    if (!newPhoneNumber.equals(contactToEdit.getPhoneNumber()) && phoneToContactMap.containsKey(newPhoneNumber)) {
+		        System.out.println("이미 등록된 전화번호입니다.");
+		        return;
+		    }
+		    
+		    // 원래 있던 정보 제거 후 수정
+		    phoneToContactMap.remove(contactToEdit.getPhoneNumber()); // 원래 있던 정보 제거
+		    contactToEdit.setName(newName); 
+		    contactToEdit.setPhoneNumber(newPhoneNumber);
+		
+		    System.out.print("새 주소 : ");
+		    contactToEdit.setAddress(scanner.nextLine());
+		
+		    System.out.print("새 구분(가족,친구,기타 중 선택) : ");
+		    contactToEdit.setType(scanner.nextLine());
+		
+		    phoneToContactMap.put(newPhoneNumber, contactToEdit);
+		    System.out.println("회원정보가 수정되었습니다.");
+		}
+		
+		// case 4 : 회원삭제
+		public void deleteMember() {
+			System.out.print("삭제할 회원의 이름을 입력하세요 : ");
+	        String deleteName = scanner.nextLine();
+	        List<Contact> contactsToDelete = new ArrayList<>(); // contactsToDelete = 삭제후보
+	        for (Contact contact : phoneToContactMap.values()) { // 해시맵에서 확인
+	            if (contact.getName().equals(deleteName)) {
+	                contactsToDelete.add(contact); // 삭제후보에 넣기
+	            }
+	        }
+	        // 같은 이름 가진 회원 없으면
+	        if (contactsToDelete.isEmpty()) {
+	            System.out.println("해당하는 회원정보가 없습니다.");
+	            return;
+	        }
+	        // 삭제할 회원 선택
+	        System.out.println("총 " + contactsToDelete.size() + "개 목록이 검색되었습니다.");
+	        for (int i = 0; i < contactsToDelete.size(); i++) {
+	            System.out.println((i + 1) + ". " + contactsToDelete.get(i));
+	        }
+	        
+	        int deleteChoice = -1;
+	        while (true) {
+	        	try {
+	        		System.out.print("선택 : ");
+	                deleteChoice = Integer.parseInt(scanner.nextLine()); // 문자열을 숫자로 변환
+	                if (deleteChoice < 1 || deleteChoice > contactsToDelete.size()) {
+	                    System.out.println("잘못입력");
+	                    continue;
+	        	}
+	                break;
+	        	}catch(NumberFormatException e) {
+	        		System.out.println("잘못입력");
+	        	}
+	        }   
+	        // 회원 삭제
+	        Contact contactToDelete = contactsToDelete.get(deleteChoice - 1); // 선택한 회원을 contactsToDelete에서 가져오기
+	        phoneToContactMap.remove(contactToDelete.getPhoneNumber());
+	        System.out.println("회원정보가 삭제되었습니다.");
+	        return;
+		}
+
+		public Scanner getScanner() {
+			return scanner;
+		}
+
+	
+	
+}
